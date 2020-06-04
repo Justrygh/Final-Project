@@ -1,0 +1,139 @@
+from browsermobproxy import Server
+from selenium import webdriver
+import os
+import json
+import urllib.parse as urlparse
+import uuid
+import platform
+from database import DNSDatabase
+
+
+chrome_driver_path = "C:\\Users\\Computer\\Desktop\\chromedriver.exe" # path to chrome web driver
+browsermob_proxy_path = "C:\\Users\\Computer\\Desktop\\browsermob-proxy-2.1.4\\bin\\browsermob-proxy.bat" # path to firefox web driver
+
+
+def chrome_browser(proxy):
+    """Chrome Web Driver"""
+    chrome_driver = chrome_driver_path
+    url = urlparse.urlparse(proxy.proxy).path
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--proxy-server={0}".format(url))
+    chrome_options.add_argument('--ignore-certificate-errors')
+    driver = webdriver.Chrome(chrome_driver, options=chrome_options)
+    return driver
+
+
+def firefox_browser(proxy):
+    """Firefox Web Driver"""
+    profile = webdriver.FirefoxProfile()
+    selenium_proxy = proxy.selenium_proxy()
+    profile.set_proxy(selenium_proxy)
+    driver = webdriver.Firefox(firefox_profile=profile)
+    return driver
+
+
+def configure_dns():
+    resolver = None
+    operation_system = platform.system()
+    if operation_system == "Windows":
+        instructor = open("Instructor_Windows.txt", 'r')
+        print(instructor.read())
+        p = os.system("netsh interface show interface")
+        interface = input("Choose your interface according to your adapter & connection: ")
+        resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
+        p = os.system('netsh interface ip set dns name="{0}" source="static" address="{1}"'.format(interface, resolver))
+    elif operation_system == "Linux":
+        instructor = open("Instructor_Linux.txt", 'r')
+        print(instructor.read())
+        resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
+        p = os.system('echo "nameserver {}" > /etc/resolv.conf'.format(resolver))
+    elif operation_system == "Darwin":
+        instructor = open("Instructor_Mac.txt", 'r')
+        print(instructor.read())
+        p = os.system("networksetup listallnetworkservices")
+        interface = input("Choose your interface according to your adapter & connection: ")
+        resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
+        p = os.system("networksetup -setdnsservers {0} {1}".format(interface, resolver))
+    else:
+        print("Error: Our script supports Windows/Linux/Darwin(Mac) Operation Systems Only!")
+    return resolver, operation_system
+
+
+def configure_server(proxy):
+    database, resolver, recursive, operation_sys, websites, browsers = container()
+    for browser in browsers:
+        experiment = uuid.uuid1()
+        print("=====> Configuring Server - Please Wait... <=====")
+        if browser == "Chrome":
+            driver = chrome_browser(proxy)
+            print("=====> Using Google Chrome <=====")
+        if browser == "Firefox":
+            driver = firefox_browser(proxy)
+            print("=====> Using Firefox <=====")
+        for website in websites:
+            har_uuid = uuid.uuid1()
+            print("===========================================================")
+            print("Creating HAR for Website: https://{}".format(website))
+            proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
+            driver.get("https://{}".format(website))
+            har = json.loads(json.dumps(proxy.har))
+            rv = database.insert_har(experiment, website, browser, recursive, operation_sys, "dns", har, har_uuid, "null", "null")
+            if not rv:
+                print("Saved HAR for website {}".format(website))
+            print("===========================================================")
+        driver.quit()
+
+
+def configure_database():
+    db = DNSDatabase.init_from_config_file('postgres.ini')
+    db._connect()
+    return db
+
+
+def configure_websites():
+    webs = open("websites.txt", "r")
+    websites = webs.read().split('\n')
+    webs.close()
+    return websites
+
+
+def convert(resolver):
+    recursive = None
+    if resolver == "1.1.1.1":
+        recursive = "Cloudflare"
+    elif resolver == "8.8.8.8":
+        recursive = "Google"
+    elif resolver == "9.9.9.9":
+        recursive = "Quad9"
+    return recursive
+
+
+def container():
+    database = configure_database()
+    resolver, operation_sys = configure_dns()
+    recursive = convert(resolver)
+    websites = configure_websites()
+    browsers = ["Chrome", "Firefox"]
+    return database, resolver, recursive, operation_sys, websites, browsers
+
+
+def create_server():
+    print("=====> Creating New Server - Please Wait... <=====")
+    server = Server(browsermob_proxy_path)
+    server.start()
+    proxy = server.create_proxy()
+    configure_server(proxy)
+    close_server(proxy, server)
+
+
+def close_server(proxy, server):
+    proxy.close()
+    server.stop()
+
+
+def main():
+    create_server()
+
+
+if __name__ == "__main__":
+    main()
