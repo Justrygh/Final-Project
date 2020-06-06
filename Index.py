@@ -6,6 +6,9 @@ import urllib.parse as urlparse
 import uuid
 import platform
 from database import DNSDatabase
+from ping3 import ping
+import dns_timings as dt
+
 
 
 chrome_driver_path = "C:\\Users\\Computer\\Desktop\\chromedriver.exe" # path to chrome web driver
@@ -28,8 +31,23 @@ def firefox_browser(proxy):
     profile = webdriver.FirefoxProfile()
     selenium_proxy = proxy.selenium_proxy()
     profile.set_proxy(selenium_proxy)
+    #profile.accept_untrusted_certs = True
     driver = webdriver.Firefox(firefox_profile=profile)
     return driver
+
+
+def ping_resolver(resolver_ip, count=5):
+    # Send "count" pings
+    delays = []
+    for i in range(count):
+        try:
+            d = ping(resolver_ip, unit='ms')
+            if d:
+                delays.append(d)
+        except Exception as e:
+            print('ping error:', e)
+            return []
+    return delays
 
 
 def configure_dns():
@@ -60,7 +78,7 @@ def configure_dns():
 
 
 def configure_server(proxy):
-    database, resolver, recursive, operation_sys, websites, browsers = container()
+    database, resolver, recursive, operation_sys, websites, browsers, dns_type, delay = container()
     for browser in browsers:
         experiment = uuid.uuid1()
         print("=====> Configuring Server - Please Wait... <=====")
@@ -70,17 +88,26 @@ def configure_server(proxy):
         if browser == "Firefox":
             driver = firefox_browser(proxy)
             print("=====> Using Firefox <=====")
-        for website in websites:
-            har_uuid = uuid.uuid1()
-            print("===========================================================")
-            print("Creating HAR for Website: https://{}".format(website))
-            proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
-            driver.get("https://{}".format(website))
-            har = json.loads(json.dumps(proxy.har))
-            rv = database.insert_har(experiment, website, browser, recursive, operation_sys, "dns", har, har_uuid, "null", "null")
-            if not rv:
-                print("Saved HAR for website {}".format(website))
-            print("===========================================================")
+        for dns in dns_type:
+            for website in websites:
+                har_uuid = uuid.uuid1()
+                print("===========================================================")
+                print("Creating HAR for Website: https://{}".format(website))
+                proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
+                driver.get("https://{}".format(website))
+                har = json.loads(json.dumps(proxy.har))
+                rv = database.insert_har(experiment, website, browser, recursive, operation_sys, dns, har, har_uuid, "null", delay)
+                if not rv:
+                    print("Saved HAR for website {}".format(website))
+                    print("===========================================================")
+                if dns == "doh":
+                    resolver = convert_resolver(resolver)
+                dns_info = dt.measure_dns(website, har, har_uuid, dns, resolver)
+                #if dns_info:
+                rv_dns = database.insert_dns(har_uuid, experiment, browser, recursive, operation_sys, dns, dns_info)
+                if not rv_dns:
+                    print("Saved DNS for website {}".format(website))
+                    print("===========================================================")
         driver.quit()
 
 
@@ -97,7 +124,7 @@ def configure_websites():
     return websites
 
 
-def convert(resolver):
+def convert_recursive(resolver):
     recursive = None
     if resolver == "1.1.1.1":
         recursive = "Cloudflare"
@@ -108,13 +135,25 @@ def convert(resolver):
     return recursive
 
 
+def convert_resolver(resolver):
+    if resolver == "1.1.1.1":
+        resolver = "https://cloudflare-dns.com/dns-query"
+    elif resolver == "8.8.8.8":
+        resolver = "https://dns.google/dns-qeury"
+    elif resolver == "9.9.9.9":
+        resolver = "https://dns.quad9.net/dns-query"
+    return resolver
+
+
 def container():
     database = configure_database()
     resolver, operation_sys = configure_dns()
-    recursive = convert(resolver)
+    recursive = convert_recursive(resolver)
     websites = configure_websites()
-    browsers = ["Chrome", "Firefox"]
-    return database, resolver, recursive, operation_sys, websites, browsers
+    browsers = ["Firefox"]
+    dns_type = ["dns", "dot"]
+    delay = ping_resolver(resolver)
+    return database, resolver, recursive, operation_sys, websites, browsers, dns_type, delay
 
 
 def create_server():
@@ -123,7 +162,7 @@ def create_server():
     server.start()
     proxy = server.create_proxy()
     configure_server(proxy)
-    close_server(proxy, server)
+    #close_server(proxy, server)
 
 
 def close_server(proxy, server):

@@ -12,6 +12,7 @@ b1 = tf.Variable(tf.zeros([categories]))
 y_ = tf.sigmoid(tf.matmul(x, W1) + b1)
 
 loss = tf.reduce_sum(tf.square(y - y_))
-update = tf.train.GradientDescentOptimizer(0.0005).minimize(loss)
+update = tf.train.GradientDescentOptimizer(0.01).minimize(loss)
 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+
