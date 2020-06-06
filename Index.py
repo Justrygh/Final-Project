@@ -7,7 +7,7 @@ import uuid
 import platform
 from database import DNSDatabase
 from ping3 import ping
-import dns_timings as dt
+from dns_timings import measure_dns
 
 
 
@@ -102,7 +102,7 @@ def configure_server(proxy):
                     print("===========================================================")
                 if dns == "doh":
                     resolver = convert_resolver(resolver)
-                dns_info = dt.measure_dns(website, har, har_uuid, dns, resolver)
+                dns_info = measure_dns(website, har, har_uuid, dns, resolver)
                 #if dns_info:
                 rv_dns = database.insert_dns(har_uuid, experiment, browser, recursive, operation_sys, dns, dns_info)
                 if not rv_dns:
