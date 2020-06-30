@@ -150,7 +150,7 @@ def container():
     resolver, operation_sys = configure_dns()
     recursive = convert_recursive(resolver)
     websites = configure_websites()
-    browsers = ["Firefox"]
+    browsers = ["Firefox", "Chrome"]
     dns_type = ["dns", "dot"]
     delay = ping_resolver(resolver)
     return database, resolver, recursive, operation_sys, websites, browsers, dns_type, delay
