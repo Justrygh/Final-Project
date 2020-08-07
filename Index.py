@@ -104,7 +104,7 @@ def configure_server(proxy):
                 if dns == "doh":
                     resolver = convert_resolver(resolver)
                 try:
-                    dns_info = measure_dns(website, har, dns, resolver)
+                    dns_info = measure_dns(website, har, dns, resolver, operation_sys)
                     if dns_info:
                         rv_dns = database.insert_dns(har_uuid, experiment, browser, recursive, operation_sys, dns, dns_info)
                         if not rv_dns:

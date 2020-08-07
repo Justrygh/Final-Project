@@ -10,7 +10,7 @@ import tldextract
 log = logging.getLogger('postgres')
 
 
-def measure_dns(website, har, dns_type, resolver):
+def measure_dns(website, har, dns_type, resolver, operation_sys):
     domains = get_unique_domains(har)
     domains_filename = "domains.txt"
     write_domains(domains, domains_filename)
@@ -23,10 +23,11 @@ def measure_dns(website, har, dns_type, resolver):
         elif dns_type == 'doh':
             dns_opt = 'doh'
 
-        cmd = ["dns-timing/dns-timing", dns_opt, resolver, domains_filename]
-        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)  # Returns None
-        output = output.decode('utf-8')
-        all_dns_info = parse_output(output, website, domains)
+        if operation_sys == "Linux":
+            cmd = ["dns-timing/dns-timing", dns_opt, resolver, domains_filename]
+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)  # Returns None
+            output = output.decode('utf-8')
+            all_dns_info = parse_output(output, website, domains)
         # os.remove(domains_filename)
         return all_dns_info
     except Exception as e:
