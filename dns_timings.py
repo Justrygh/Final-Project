@@ -10,9 +10,9 @@ import tldextract
 log = logging.getLogger('postgres')
 
 
-def measure_dns(website, har, har_uuid, dns_type, resolver):
+def measure_dns(website, har, dns_type, resolver):
     domains = get_unique_domains(har)
-    domains_filename = "domains-" + str(har_uuid) + ".txt"
+    domains_filename = "domains.txt"
     write_domains(domains, domains_filename)
 
     try:
@@ -24,15 +24,15 @@ def measure_dns(website, har, har_uuid, dns_type, resolver):
             dns_opt = 'doh'
 
         cmd = ["dns-timing/dns-timing", dns_opt, resolver, domains_filename]
-        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)  # Returns None
         output = output.decode('utf-8')
         all_dns_info = parse_output(output, website, domains)
-        os.remove(domains_filename)
+        # os.remove(domains_filename)
         return all_dns_info
     except Exception as e:
         err = 'Error getting DNS timings: website {0}, dns_type {1}, ' \
               'resolver {2}'
-        os.remove(domains_filename)
+        # os.remove(domains_filename)
         log.error(err.format(website, dns_type, resolver))
     return None
 
@@ -74,9 +74,10 @@ def get_unique_domains(har):
     if not har:
         return []
 
-    if "entries" not in har:
+    log = har["log"]
+    if "entries" not in log:
         return []
-    entries = har["entries"]
+    entries = log["entries"]
 
     if len(entries) == 1:
         return []
@@ -102,6 +103,7 @@ def get_unique_domains(har):
 
 
 def write_domains(domains, domains_filename):
-    with open(domains_filename, "w") as f:
+    with open(domains_filename, 'w') as f:
         for d in domains:
             f.write("{0}\n".format(d))
+        f.close()

@@ -8,7 +8,7 @@ import platform
 from database import DNSDatabase
 from ping3 import ping
 from dns_timings import measure_dns
-
+import re
 
 
 chrome_driver_path = "C:\\Users\\Computer\\Desktop\\chromedriver.exe" # path to chrome web driver
@@ -92,22 +92,28 @@ def configure_server(proxy):
             for website in websites:
                 har_uuid = uuid.uuid1()
                 print("===========================================================")
+                print("Type: ", dns, " | Resolver: ", recursive)
                 print("Creating HAR for Website: https://{}".format(website))
                 proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
                 driver.get("https://{}".format(website))
                 har = json.loads(json.dumps(proxy.har))
-                rv = database.insert_har(experiment, website, browser, recursive, operation_sys, dns, har, har_uuid, "null", delay)
+                rv = database.insert_har(experiment, website, browser, recursive, operation_sys, dns, har, har_uuid, None, delay)
                 if not rv:
                     print("Saved HAR for website {}".format(website))
-                    print("===========================================================")
+                    print("===========================================================\n")
                 if dns == "doh":
                     resolver = convert_resolver(resolver)
-                dns_info = measure_dns(website, har, har_uuid, dns, resolver)
-                #if dns_info:
-                rv_dns = database.insert_dns(har_uuid, experiment, browser, recursive, operation_sys, dns, dns_info)
-                if not rv_dns:
-                    print("Saved DNS for website {}".format(website))
-                    print("===========================================================")
+                try:
+                    dns_info = measure_dns(website, har, dns, resolver)
+                    if dns_info:
+                        rv_dns = database.insert_dns(har_uuid, experiment, browser, recursive, operation_sys, dns, dns_info)
+                        if not rv_dns:
+                            print("Saved DNS for website {}".format(website))
+                            print("===========================================================")
+
+                except:
+                    print("An exception occurred")
+
         driver.quit()
 
 
@@ -147,11 +153,13 @@ def convert_resolver(resolver):
 
 def container():
     database = configure_database()
-    resolver, operation_sys = configure_dns()
+    #resolver, operation_sys = configure_dns()
+    resolver = "1.1.1.1"
+    operation_sys = "Windows"
     recursive = convert_recursive(resolver)
     websites = configure_websites()
     browsers = ["Firefox"]
-    dns_type = ["dns", "dot"]
+    dns_type = ["dns"]
     delay = ping_resolver(resolver)
     return database, resolver, recursive, operation_sys, websites, browsers, dns_type, delay
 
@@ -162,7 +170,7 @@ def create_server():
     server.start()
     proxy = server.create_proxy()
     configure_server(proxy)
-    #close_server(proxy, server)
+    close_server(proxy, server)
 
 
 def close_server(proxy, server):
