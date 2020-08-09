@@ -6,11 +6,14 @@ import logging.config
 import collections
 import subprocess
 import tldextract
+from subprocess import call
+import platform
 
 log = logging.getLogger('postgres')
 
 
-def measure_dns(website, har, dns_type, resolver, operation_sys):
+def measure_dns(website, har, dns_type, resolver):
+    operation_system = platform.system()
     domains = get_unique_domains(har)
     domains_filename = "domains.txt"
     write_domains(domains, domains_filename)
@@ -23,17 +26,17 @@ def measure_dns(website, har, dns_type, resolver, operation_sys):
         elif dns_type == 'doh':
             dns_opt = 'doh'
 
-        if operation_sys == "Linux":
+        if operation_system == "Linux":
             cmd = ["dns-timing/dns-timing", dns_opt, resolver, domains_filename]
-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)  # Returns None
-            output = output.decode('utf-8')
-            all_dns_info = parse_output(output, website, domains)
-        # os.remove(domains_filename)
+        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        output = output.decode('utf-8')
+        all_dns_info = parse_output(output, website, domains)
+        os.remove(domains_filename)
         return all_dns_info
     except Exception as e:
         err = 'Error getting DNS timings: website {0}, dns_type {1}, ' \
               'resolver {2}'
-        # os.remove(domains_filename)
+        os.remove(domains_filename)
         log.error(err.format(website, dns_type, resolver))
     return None
 

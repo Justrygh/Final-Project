@@ -9,6 +9,7 @@ from database import DNSDatabase
 from ping3 import ping
 from dns_timings import measure_dns
 import re
+from subprocess import call
 
 
 chrome_driver_path = "C:\\Users\\Computer\\Desktop\\chromedriver.exe" # path to chrome web driver
@@ -31,7 +32,6 @@ def firefox_browser(proxy):
     profile = webdriver.FirefoxProfile()
     selenium_proxy = proxy.selenium_proxy()
     profile.set_proxy(selenium_proxy)
-    #profile.accept_untrusted_certs = True
     driver = webdriver.Firefox(firefox_profile=profile)
     return driver
 
@@ -100,19 +100,20 @@ def configure_server(proxy):
                 rv = database.insert_har(experiment, website, browser, recursive, operation_sys, dns, har, har_uuid, None, delay)
                 if not rv:
                     print("Saved HAR for website {}".format(website))
-                    print("===========================================================\n")
                 if dns == "doh":
                     resolver = convert_resolver(resolver)
                 try:
-                    dns_info = measure_dns(website, har, dns, resolver, operation_sys)
+                    dns_info = measure_dns(website, har, dns, resolver)
                     if dns_info:
                         rv_dns = database.insert_dns(har_uuid, experiment, browser, recursive, operation_sys, dns, dns_info)
                         if not rv_dns:
                             print("Saved DNS for website {}".format(website))
-                            print("===========================================================")
+                            print("===========================================================\n")
+                    else:
+                        print("===========================================================\n")
 
                 except:
-                    print("An exception occurred")
+                    print("An exception occurred! Please try again later.")
 
         driver.quit()
 
@@ -151,6 +152,25 @@ def convert_resolver(resolver):
     return resolver
 
 
+def configure_browsers():
+    list = []
+    while True:
+        browser = input("Choose browser - Firefox / Chrome / Both: ").lower()
+        if browser == "firefox":
+            list.append("Firefox")
+            break
+        elif browser == "chrome":
+            list.append("Chrome")
+            break
+        elif browser == "both":
+            list.append("Firefox")
+            list.append("Chrome")
+            break
+        else:
+            print("Please try again!")
+    return list
+
+
 def container():
     database = configure_database()
     #resolver, operation_sys = configure_dns()
@@ -158,8 +178,8 @@ def container():
     operation_sys = "Windows"
     recursive = convert_recursive(resolver)
     websites = configure_websites()
-    browsers = ["Firefox"]
-    dns_type = ["dns"]
+    browsers = configure_browsers()
+    dns_type = ["dns", "dot", "doh"]
     delay = ping_resolver(resolver)
     return database, resolver, recursive, operation_sys, websites, browsers, dns_type, delay
 
@@ -169,8 +189,7 @@ def create_server():
     server = Server(browsermob_proxy_path)
     server.start()
     proxy = server.create_proxy()
-    configure_server(proxy)
-    close_server(proxy, server)
+    return proxy, server
 
 
 def close_server(proxy, server):
@@ -179,7 +198,9 @@ def close_server(proxy, server):
 
 
 def main():
-    create_server()
+    proxy, server = create_server()
+    configure_server(proxy)
+    close_server(proxy, server)
 
 
 if __name__ == "__main__":
