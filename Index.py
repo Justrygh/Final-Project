@@ -9,16 +9,20 @@ from database import DNSDatabase
 from ping3 import ping
 from dns_timings import measure_dns
 import re
-from subprocess import call
+import subprocess
 
 
-chrome_driver_path = "C:\\Users\\Computer\\Desktop\\chromedriver.exe" # path to chrome web driver
-browsermob_proxy_path = "C:\\Users\\Computer\\Desktop\\browsermob-proxy-2.1.4\\bin\\browsermob-proxy.bat" # path to firefox web driver
+def configure_proxy():
+    browsermob_proxy_path = os.getcwd()  # path to firefox web driver
+    browsermob_proxy = ["browsermob-proxy-2.1.4", "bin", "browsermob-proxy.bat"]
+    for i in range(len(browsermob_proxy)):
+        browsermob_proxy_path = os.path.join(browsermob_proxy_path, browsermob_proxy[i])
+    return browsermob_proxy_path
 
 
 def chrome_browser(proxy):
     """Chrome Web Driver"""
-    chrome_driver = chrome_driver_path
+    chrome_driver = os.getcwd() + "chromedriver.exe"
     url = urlparse.urlparse(proxy.proxy).path
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--proxy-server={0}".format(url))
@@ -186,7 +190,7 @@ def container():
 
 def create_server():
     print("=====> Creating New Server - Please Wait... <=====")
-    server = Server(browsermob_proxy_path)
+    server = Server(configure_proxy())
     server.start()
     proxy = server.create_proxy()
     return proxy, server
