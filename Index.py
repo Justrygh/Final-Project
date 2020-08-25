@@ -12,8 +12,8 @@ import re
 from subprocess import call
 
 
-chrome_driver_path = "C:\\Users\\Computer\\Desktop\\chromedriver.exe" # path to chrome web driver
-browsermob_proxy_path = "C:\\Users\\Computer\\Desktop\\browsermob-proxy-2.1.4\\bin\\browsermob-proxy.bat" # path to firefox web driver
+chrome_driver_path = os.getcwd() + "chromedriver.exe" # path to chrome web driver
+browsermob_proxy_path = os.path.join(os.getcwd(), "browsermob-proxy-2.1.4\\bin\\browsermob-proxy.bat") # path to firefox web driver
 
 
 def chrome_browser(proxy):
