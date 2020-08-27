@@ -1,6 +1,0 @@
-Welcome!
-Before we begin please take a moment to read the instructions below.
-This script is built for WINDOWS operation system only!
-In this script we are going to change our DNS resolver!
-
-Make sure you run PyCharm / Python IDE as administrator, if not please relaunch as administrator.
