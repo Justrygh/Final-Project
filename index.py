@@ -63,19 +63,19 @@ def configure_dns():
     resolver = None
     operation_system = platform.system()
     if operation_system == "Windows":
-        instructor = open("Instructor_Windows.txt", 'r')
+        instructor = open("instructor_windows.txt", 'r')
         print(instructor.read())
         p = os.system("netsh interface show interface")
         interface = input("Choose your interface according to your adapter & connection: ")
         resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
         p = os.system('netsh interface ip set dns name="{0}" source="static" address="{1}"'.format(interface, resolver))
     elif operation_system == "Linux":
-        instructor = open("Instructor_Linux.txt", 'r')
+        instructor = open("instructor_linux.txt", 'r')
         print(instructor.read())
         resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
         p = os.system('echo "nameserver {}" > /etc/resolv.conf'.format(resolver))
     elif operation_system == "Darwin":
-        instructor = open("Instructor_Mac.txt", 'r')
+        instructor = open("instructor_mac.txt", 'r')
         print(instructor.read())
         p = os.system("networksetup listallnetworkservices")
         interface = input("Choose your interface according to your adapter & connection: ")
