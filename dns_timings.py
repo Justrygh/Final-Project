@@ -21,18 +21,14 @@ def measure_dns(website, har, dns_type, resolver):
 
     try:
         if dns_type == 'dns':
-            dns_opt = 'do53'
-        elif dns_type == 'dot':
-            dns_opt = 'dot'
-        elif dns_type == 'doh':
-            dns_opt = 'doh'
+            dns_type = 'do53'
 
         if operation_system == "Linux":
-            cmd = ["dns-timing/dns-timing", dns_opt, resolver, domains_filename]
+            cmd = ["dns-timing/dns-timing", dns_type, resolver, domains_filename]
             output = check_output(cmd, stderr=STDOUT)
 
-        if operation_system == "Windows":
-            cmd = "dns-timing/dns-timing {0} {1} {2}".format(dns_opt, resolver, domains_filename)
+        elif operation_system == "Windows":
+            cmd = "dns-timing/dns-timing {0} {1} {2}".format(dns_type, resolver, domains_filename)
             project_path = os.getcwd()
             project_path = project_path.split("\\")
             project_path[0] = project_path[0][:-1].lower()

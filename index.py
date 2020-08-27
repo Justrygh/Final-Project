@@ -10,6 +10,7 @@ from ping3 import ping
 from dns_timings import measure_dns
 import re
 import subprocess
+from subprocess import call, run, PIPE
 
 
 def configure_proxy():
@@ -58,6 +59,30 @@ def ping_resolver(resolver_ip, count=5):
     return delays
 
 
+def configure_stubby(resolver):
+    operation_system = platform.system()
+    with open("stubby/resolv.conf", "w") as f:
+        f.write("nameserver 127.0.0.1")
+
+    if operation_system == "Linux":
+        if resolver == '1.1.1.1':
+            run(["sudo", "stubby", "-C", "stubby/stubby-cf.yml", "-g"])
+        elif resolver == '9.9.9.9':
+            run(["sudo", "stubby", "-C", "stubby/stubby-quad9.yml", "-g"])
+        elif resolver == '8.8.8.8':
+            run(["sudo", "stubby", "-C", "stubby/stubby-google.yml", "-g"])
+        run(["sudo", "cp", "stubby/resolv.conf", "/etc/resolv.conf"])
+
+    elif operation_system == "Windows":
+        if resolver == '1.1.1.1':
+            run("ubuntu", shell=True, stdout=PIPE, input="sudo stubby -C stubby/stubby-cf.yml -g", encoding='ascii')
+        elif resolver == '9.9.9.9':
+            run("ubuntu", shell=True, stdout=PIPE, input="sudo stubby -C stubby/stubby-quad9.yml -g", encoding='ascii')
+        elif resolver == '8.8.8.8':
+            run("ubuntu", shell=True, stdout=PIPE, input="sudo stubby -C stubby/stubby-google.yml -g", encoding='ascii')
+        run("ubuntu", shell=True, stdout=PIPE, input="sudo cp stubby/resolv.conf /etc/resolv.conf", encoding='ascii')
+
+
 def configure_dns():
     """ Resolver """
     resolver = None
@@ -100,6 +125,8 @@ def configure_server(proxy):
             driver = firefox_browser(proxy)
             print("=====> Using Firefox <=====")
         for dns in dns_type:
+            if dns == "dot":
+                configure_stubby(resolver)
             for website in websites:
                 har_uuid = uuid.uuid1()
                 print("===========================================================")
@@ -122,10 +149,11 @@ def configure_server(proxy):
                             print("===========================================================\n")
                     else:
                         print("===========================================================\n")
-
                 except:
                     print("An exception occurred! Please try again later.")
 
+        if dns == "dot":
+            close_stubby(resolver)
         driver.quit()
 
 
@@ -171,16 +199,20 @@ def convert_resolver(resolver):
 
 def configure_browsers():
     """ Browsers """
-    while True:
-        browser = input("Choose browser - Firefox / Chrome / Both: ").lower()
-        if browser == "firefox":
-            return ["Firefox"]
-        elif browser == "chrome":
-            return ["Chrome"]
-        elif browser == "both":
-            return ["Firefox", "Chrome"]
-        else:
-            print("Please try again!")
+    operation_system = platform.system()
+    if operation_system == "Windows" or operation_system == "Darwin":
+        while True:
+            browser = input("Choose browser - Firefox / Chrome / Both: ").lower()
+            if browser == "firefox":
+                return ["Firefox"]
+            elif browser == "chrome":
+                return ["Chrome"]
+            elif browser == "both":
+                return ["Firefox", "Chrome"]
+            else:
+                print("Please try again!")
+    else:
+        return ["Firefox"]
 
 
 def container():
@@ -190,7 +222,7 @@ def container():
     recursive = convert_recursive(resolver)
     websites = configure_websites()
     browsers = configure_browsers()
-    dns_type = ["dns", "dot", "doh"]
+    dns_type = ["dns", "dot"]
     delay = ping_resolver(resolver)
     return database, resolver, recursive, websites, browsers, dns_type, delay
 
@@ -206,6 +238,16 @@ def create_server():
 def close_server(proxy, server):
     proxy.close()
     server.stop()
+
+
+def close_stubby(resolver):
+    operation_system = platform.system()
+    with open("stubby/resolv.conf", "w") as f:
+        f.write("nameserver " + resolver)
+    if operation_system == "Linux":
+        run(["sudo", "cp", "stubby/resolv.conf", "/etc/resolv.conf"])
+    elif operation_system == "Windows":
+        run("ubuntu", shell=True, stdout=PIPE, input="sudo cp stubby/resolv.conf /etc/resolv.conf", encoding='ascii')
 
 
 def main():
