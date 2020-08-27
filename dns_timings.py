@@ -6,8 +6,9 @@ import logging.config
 import collections
 import subprocess
 import tldextract
-from subprocess import call
+from subprocess import call, run, PIPE, check_output, STDOUT
 import platform
+import wslpy as wp
 
 log = logging.getLogger('postgres')
 
@@ -28,7 +29,18 @@ def measure_dns(website, har, dns_type, resolver):
 
         if operation_system == "Linux":
             cmd = ["dns-timing/dns-timing", dns_opt, resolver, domains_filename]
-        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+            output = check_output(cmd, stderr=STDOUT)
+
+        if operation_system == "Windows":
+            cmd = "dns-timing/dns-timing {0} {1} {2}".format(dns_opt, resolver, domains_filename)
+            project_path = os.getcwd()
+            project_path = project_path.split("\\")
+            project_path[0] = project_path[0][:-1].lower()
+            project_path = "/".join(project_path)
+            project_path = "cd ../../mnt/" + project_path
+            run_input = project_path + " && " + cmd
+            output = run("ubuntu", shell=True, stdout=PIPE, input=run_input, encoding='ascii')
+
         output = output.decode('utf-8')
         all_dns_info = parse_output(output, website, domains)
         os.remove(domains_filename)

@@ -13,15 +13,19 @@ import subprocess
 
 
 def configure_proxy():
+    """ Browser Mob Proxy """
     browsermob_proxy_path = os.getcwd()  # path to firefox web driver
-    browsermob_proxy = ["browsermob-proxy-2.1.4", "bin", "browsermob-proxy.bat"]
+    browsermob_proxy = ["browsermob-proxy-2.1.4", "bin", "browsermob-proxy"]
     for i in range(len(browsermob_proxy)):
         browsermob_proxy_path = os.path.join(browsermob_proxy_path, browsermob_proxy[i])
+    if platform.system() == "Windows":
+        browsermob_proxy_path += ".bat"
+
     return browsermob_proxy_path
 
 
 def chrome_browser(proxy):
-    """Chrome Web Driver"""
+    """ Chrome Web Driver """
     chrome_driver = os.getcwd() + "chromedriver.exe"
     url = urlparse.urlparse(proxy.proxy).path
     chrome_options = webdriver.ChromeOptions()
@@ -32,7 +36,7 @@ def chrome_browser(proxy):
 
 
 def firefox_browser(proxy):
-    """Firefox Web Driver"""
+    """ Firefox Web Driver """
     profile = webdriver.FirefoxProfile()
     selenium_proxy = proxy.selenium_proxy()
     profile.set_proxy(selenium_proxy)
@@ -41,7 +45,7 @@ def firefox_browser(proxy):
 
 
 def ping_resolver(resolver_ip, count=5):
-    # Send "count" pings
+    """ Send "count" pings """
     delays = []
     for i in range(count):
         try:
@@ -55,22 +59,23 @@ def ping_resolver(resolver_ip, count=5):
 
 
 def configure_dns():
+    """ Resolver """
     resolver = None
     operation_system = platform.system()
     if operation_system == "Windows":
-        instructor = open("Instructor_Windows.txt", 'r')
+        instructor = open("instructor_windows.txt", 'r')
         print(instructor.read())
         p = os.system("netsh interface show interface")
         interface = input("Choose your interface according to your adapter & connection: ")
         resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
         p = os.system('netsh interface ip set dns name="{0}" source="static" address="{1}"'.format(interface, resolver))
     elif operation_system == "Linux":
-        instructor = open("Instructor_Linux.txt", 'r')
+        instructor = open("instructor_linux.txt", 'r')
         print(instructor.read())
         resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
         p = os.system('echo "nameserver {}" > /etc/resolv.conf'.format(resolver))
     elif operation_system == "Darwin":
-        instructor = open("Instructor_Mac.txt", 'r')
+        instructor = open("instructor_mac.txt", 'r')
         print(instructor.read())
         p = os.system("networksetup listallnetworkservices")
         interface = input("Choose your interface according to your adapter & connection: ")
@@ -82,7 +87,9 @@ def configure_dns():
 
 
 def configure_server(proxy):
-    database, resolver, recursive, operation_sys, websites, browsers, dns_type, delay = container()
+    """ Experiment """
+    database, resolver, recursive, websites, browsers, dns_type, delay = container()
+    operation_system = platform.system()
     for browser in browsers:
         experiment = uuid.uuid1()
         print("=====> Configuring Server - Please Wait... <=====")
@@ -101,7 +108,7 @@ def configure_server(proxy):
                 proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
                 driver.get("https://{}".format(website))
                 har = json.loads(json.dumps(proxy.har))
-                rv = database.insert_har(experiment, website, browser, recursive, operation_sys, dns, har, har_uuid, None, delay)
+                rv = database.insert_har(experiment, website, browser, recursive, operation_system, dns, har, har_uuid, None, delay)
                 if not rv:
                     print("Saved HAR for website {}".format(website))
                 if dns == "doh":
@@ -109,7 +116,7 @@ def configure_server(proxy):
                 try:
                     dns_info = measure_dns(website, har, dns, resolver)
                     if dns_info:
-                        rv_dns = database.insert_dns(har_uuid, experiment, browser, recursive, operation_sys, dns, dns_info)
+                        rv_dns = database.insert_dns(har_uuid, experiment, browser, recursive, operation_system, dns, dns_info)
                         if not rv_dns:
                             print("Saved DNS for website {}".format(website))
                             print("===========================================================\n")
@@ -123,19 +130,24 @@ def configure_server(proxy):
 
 
 def configure_database():
+    """ Database """
     db = DNSDatabase.init_from_config_file('postgres.ini')
     db._connect()
     return db
 
 
 def configure_websites():
+    """ Websites """
     webs = open("websites.txt", "r")
     websites = webs.read().split('\n')
+    if websites[-1] == '':
+        del websites[-1]
     webs.close()
     return websites
 
 
 def convert_recursive(resolver):
+    """ Recursive """
     recursive = None
     if resolver == "1.1.1.1":
         recursive = "Cloudflare"
@@ -147,6 +159,7 @@ def convert_recursive(resolver):
 
 
 def convert_resolver(resolver):
+    """ Resolver for DoH - convert ip to address """
     if resolver == "1.1.1.1":
         resolver = "https://cloudflare-dns.com/dns-query"
     elif resolver == "8.8.8.8":
@@ -157,35 +170,29 @@ def convert_resolver(resolver):
 
 
 def configure_browsers():
-    list = []
+    """ Browsers """
     while True:
         browser = input("Choose browser - Firefox / Chrome / Both: ").lower()
         if browser == "firefox":
-            list.append("Firefox")
-            break
+            return ["Firefox"]
         elif browser == "chrome":
-            list.append("Chrome")
-            break
+            return ["Chrome"]
         elif browser == "both":
-            list.append("Firefox")
-            list.append("Chrome")
-            break
+            return ["Firefox", "Chrome"]
         else:
             print("Please try again!")
-    return list
 
 
 def container():
     database = configure_database()
     #resolver, operation_sys = configure_dns()
     resolver = "1.1.1.1"
-    operation_sys = "Windows"
     recursive = convert_recursive(resolver)
     websites = configure_websites()
     browsers = configure_browsers()
     dns_type = ["dns", "dot", "doh"]
     delay = ping_resolver(resolver)
-    return database, resolver, recursive, operation_sys, websites, browsers, dns_type, delay
+    return database, resolver, recursive, websites, browsers, dns_type, delay
 
 
 def create_server():
