@@ -24,12 +24,11 @@ def create_server():
 
 def firefox_browser(proxy):
     """ Configure Firefox Web Driver """
-    cmd = "export PATH=$PATH:/" + os.getcwd() + "/geckodriver"
-    os.system(cmd)
+    path = os.getcwd() + "/geckodriver"
     profile = webdriver.FirefoxProfile()
     selenium_proxy = proxy.selenium_proxy()
     profile.set_proxy(selenium_proxy)
-    driver = webdriver.Firefox(firefox_profile=profile)
+    driver = webdriver.Firefox(executable_path=path, firefox_profile=profile)
     return driver
 
 
