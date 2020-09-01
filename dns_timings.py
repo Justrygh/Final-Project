@@ -10,6 +10,7 @@ from subprocess import call, run, PIPE, check_output, STDOUT
 import platform
 import wslpy as wp
 
+
 log = logging.getLogger('postgres')
 
 
