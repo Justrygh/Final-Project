@@ -117,7 +117,7 @@ def configure_server(proxy):
         if browser == "Chrome":
             driver = chrome_browser(proxy)
             print("=====> Using Google Chrome <=====")
-        if browser == "Firefox":
+        elif browser == "Firefox":
             driver = firefox_browser(proxy)
             print("=====> Using Firefox <=====")
         for dns in dns_type:
@@ -158,7 +158,7 @@ def container():
     operation_system = platform.system()
     database = configure_database()
     websites = configure_websites()
-    dns_type = ["dns", "dot"]
+    dns_type = ["dns", "dot", "doh"]
     if platform.system() == "Windows":
         resolver, browsers = windows.container()
     elif platform.system() == "Linux":

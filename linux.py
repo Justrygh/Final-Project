@@ -1,16 +1,5 @@
-from browsermobproxy import Server
-from selenium import webdriver
 import os
-import json
-import urllib.parse as urlparse
-import uuid
-import platform
-from database import DNSDatabase
-from ping3 import ping
-from dns_timings import measure_dns
-import re
-import subprocess
-from subprocess import call, run, PIPE
+from subprocess import run
 
 
 def configure_stubby(resolver):
@@ -29,8 +18,7 @@ def configure_stubby(resolver):
 
 def configure_dns():
     """ Configure DNS Resolver - Cloudflare / Google / Quad9 """
-    instructor = open("instructor_linux.txt", 'r')
-    print(instructor.read())
+    print("Make sure you run the script as administrator, if not please relaunch as administrator.")
     resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
     os.system('echo "nameserver {}" > /etc/resolv.conf'.format(resolver))
     return resolver

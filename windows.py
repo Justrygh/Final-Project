@@ -29,8 +29,7 @@ def configure_stubby(resolver):
 
 def configure_dns():
     """ Configure DNS Resolver - Cloudflare / Google / Quad9 """
-    instructor = open("instructor_windows.txt", 'r')
-    print(instructor.read())
+    print("Make sure you run PyCharm / Python IDE as administrator, if not please relaunch as administrator.\n")
     os.system("netsh interface show interface")
     interface = input("Choose your interface according to your adapter & connection: ")
     resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
