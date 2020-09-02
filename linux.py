@@ -24,13 +24,6 @@ def configure_dns():
     return resolver
 
 
-def container():
-    """ Configuration Container"""
-    resolver = configure_dns()
-    browsers = ["Firefox"]
-    return resolver, browsers
-
-
 def close_stubby(resolver):
     """ Configure Stub Resolver - Stubby (= Default ) """
     with open("stubby/resolv.conf", "w") as f:

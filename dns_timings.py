@@ -1,10 +1,5 @@
-import sys
 import os
-import subprocess
-import uuid
 import logging.config
-import collections
-import subprocess
 import tldextract
 from subprocess import call, run, PIPE, check_output, STDOUT
 import platform
