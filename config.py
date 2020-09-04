@@ -1,8 +1,4 @@
-from selenium import webdriver
-import urllib.parse as urlparse
 from database import DNSDatabase
-import os
-from proxy import Proxy as prox
 
 
 class Config:
@@ -10,6 +6,7 @@ class Config:
     def __init__(self):
         self.database = None
         self.websites = None
+        self.configuration()
 
     def configure_database(self):
         """ Configure Database - PostgreSQL """
@@ -23,3 +20,13 @@ class Config:
         if self.websites[-1] == '':
             del self.websites[-1]
         webs.close()
+
+    def configuration(self):
+        self.configure_database()
+        self.collect_websites()
+
+    def get_websites(self):
+        return self.websites
+
+    def get_database(self):
+        return self.database
