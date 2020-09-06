@@ -1,19 +1,85 @@
-[INFO  2020-09-06T12:40:40,306 net.lightbody.bmp.proxy.Main] (main) Starting BrowserMob Proxy version 2.1.4 
-[INFO  2020-09-06T12:40:40,363 org.eclipse.jetty.util.log] (main) jetty-7.x.y-SNAPSHOT 
-[INFO  2020-09-06T12:40:40,414 org.eclipse.jetty.util.log] (main) started o.e.j.s.ServletContextHandler{/,null} 
-[WARN  2020-09-06T12:40:40,559 org.eclipse.jetty.util.log] (main) FAILED SelectChannelConnector@0.0.0.0:8080: java.net.BindException: Address already in use 
-[WARN  2020-09-06T12:40:40,560 org.eclipse.jetty.util.log] (main) FAILED org.eclipse.jetty.server.Server@64711bf2: java.net.BindException: Address already in use 
-[ERROR 2020-09-06T12:40:40,560 net.lightbody.bmp.proxy.Main] (main) Failed to start Jetty server. Aborting. java.net.BindException: Address already in use
-	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
-	at sun.nio.ch.Net.bind(Net.java:455) ~[?:?]
-	at sun.nio.ch.Net.bind(Net.java:447) ~[?:?]
-	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:227) ~[?:?]
-	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:80) ~[?:?]
-	at org.eclipse.jetty.server.nio.SelectChannelConnector.open(SelectChannelConnector.java:162) ~[browsermob-dist-2.1.4.jar:?]
-	at org.eclipse.jetty.server.AbstractConnector.doStart(AbstractConnector.java:356) ~[browsermob-dist-2.1.4.jar:?]
-	at org.eclipse.jetty.server.nio.SelectChannelConnector.doStart(SelectChannelConnector.java:240) ~[browsermob-dist-2.1.4.jar:?]
-	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:55) ~[browsermob-dist-2.1.4.jar:?]
-	at org.eclipse.jetty.server.Server.doStart(Server.java:269) ~[browsermob-dist-2.1.4.jar:?]
-	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:55) ~[browsermob-dist-2.1.4.jar:?]
-	at net.lightbody.bmp.proxy.Main.main(Main.java:64) [browsermob-dist-2.1.4.jar:?]
+[INFO  2020-09-06T13:00:51,687 net.lightbody.bmp.proxy.Main] (main) Starting BrowserMob Proxy version 2.1.4 
+[INFO  2020-09-06T13:00:51,731 org.eclipse.jetty.util.log] (main) jetty-7.x.y-SNAPSHOT 
+[INFO  2020-09-06T13:00:51,761 org.eclipse.jetty.util.log] (main) started o.e.j.s.ServletContextHandler{/,null} 
+[INFO  2020-09-06T13:00:51,908 org.eclipse.jetty.util.log] (main) Started SelectChannelConnector@0.0.0.0:8080 
+[INFO  2020-09-06T13:00:52,704 org.littleshoot.proxy.impl.DefaultHttpProxyServer] (qtp948960194-20) Starting proxy at address: 0.0.0.0/0.0.0.0:8081 
+[INFO  2020-09-06T13:00:52,739 org.littleshoot.proxy.impl.DefaultHttpProxyServer] (qtp948960194-20) Proxy listening with TCP transport 
+[INFO  2020-09-06T13:00:52,826 org.littleshoot.proxy.impl.DefaultHttpProxyServer] (qtp948960194-20) Proxy started at address: /0:0:0:0:0:0:0:0:8081 
+[INFO  2020-09-06T13:01:06,520 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-2) (AWAITING_INITIAL) [id: 0x6b32b6aa, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40472]: Bad Host content-signature-2.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:06,577 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-3) (AWAITING_INITIAL) [id: 0xbccafa16, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40474]: Bad Host content-signature-2.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:06,803 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-4) (AWAITING_INITIAL) [id: 0x62a4bb78, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40476]: Bad Host content-signature-2.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:06,892 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-5) (AWAITING_INITIAL) [id: 0x6128c7f7, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40478]: Bad Host content-signature-2.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:06,981 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-6) (AWAITING_INITIAL) [id: 0xbe6130a2, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40480]: Bad Host content-signature-2.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:07,034 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-7) (AWAITING_INITIAL) [id: 0x65d15f02, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40482]: Bad Host tracking-protection.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:07,060 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-0) (AWAITING_INITIAL) [id: 0x5aaa94fb, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40484]: Bad Host snippets.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:07,139 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-1) (AWAITING_INITIAL) [id: 0x1790f1b6, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40488]: Bad Host content-signature-2.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:08,237 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-7) (AWAITING_INITIAL) [id: 0x57786273, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40510]: Bad Host content-signature-2.cdn.mozilla.net:443 
+[INFO  2020-09-06T13:01:11,012 org.littleshoot.proxy.impl.ClientToProxyConnection] (LittleProxy-0-ClientToProxyWorker-7) (AWAITING_INITIAL) [id: 0xed227c76, L:/0:0:0:0:0:0:0:1:8081 - R:/0:0:0:0:0:0:0:1:40540]: Bad Host 35b2a2f8-9dbb-460c-8d80-d52b7297c505.is-dot.cloudflareresolve.com:443 
+[INFO  2020-09-06T13:01:12,372 org.littleshoot.proxy.impl.ProxyToServerConnection] (LittleProxy-0-ProxyToServerWorker-4) (CONNECTING) [id: 0x00641c01]: Connection to upstream server failed io.netty.channel.AbstractChannel$AnnotatedSocketException: Network is unreachable: ipv6b.cloudflare-dns.com/2606:4700:4700:0:0:0:0:1111:443
+	at sun.nio.ch.Net.connect0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.connect(Net.java:476) ~[?:?]
+	at sun.nio.ch.Net.connect(Net.java:468) ~[?:?]
+	at sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:694) ~[?:?]
+	at io.netty.channel.socket.nio.NioSocketChannel.doConnect(NioSocketChannel.java:331) ~[browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.connect(AbstractNioChannel.java:254) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.connect(DefaultChannelPipeline.java:1266) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.ChannelOutboundHandlerAdapter.connect(ChannelOutboundHandlerAdapter.java:47) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.ChannelOutboundHandlerAdapter.connect(ChannelOutboundHandlerAdapter.java:47) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.ChannelOutboundHandlerAdapter.connect(ChannelOutboundHandlerAdapter.java:47) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.ChannelDuplexHandler.connect(ChannelDuplexHandler.java:50) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:523) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.connect(DefaultChannelPipeline.java:985) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannel.connect(AbstractChannel.java:255) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.bootstrap.Bootstrap$3.run(Bootstrap.java:252) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:418) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:454) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:873) [browsermob-dist-2.1.4.jar:?]
+	at java.lang.Thread.run(Thread.java:834) [?:?]
 
+[INFO  2020-09-06T13:01:12,416 org.littleshoot.proxy.impl.ProxyToServerConnection] (LittleProxy-0-ProxyToServerWorker-5) (CONNECTING) [id: 0x19dc658c]: Connection to upstream server failed io.netty.channel.AbstractChannel$AnnotatedSocketException: Network is unreachable: ipv6a.cloudflare-dns.com/2606:4700:4700:0:0:0:0:1001:443
+	at sun.nio.ch.Net.connect0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.connect(Net.java:476) ~[?:?]
+	at sun.nio.ch.Net.connect(Net.java:468) ~[?:?]
+	at sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:694) ~[?:?]
+	at io.netty.channel.socket.nio.NioSocketChannel.doConnect(NioSocketChannel.java:331) ~[browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.connect(AbstractNioChannel.java:254) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.connect(DefaultChannelPipeline.java:1266) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.ChannelOutboundHandlerAdapter.connect(ChannelOutboundHandlerAdapter.java:47) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.ChannelOutboundHandlerAdapter.connect(ChannelOutboundHandlerAdapter.java:47) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.ChannelOutboundHandlerAdapter.connect(ChannelOutboundHandlerAdapter.java:47) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.ChannelDuplexHandler.connect(ChannelDuplexHandler.java:50) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeConnect(AbstractChannelHandlerContext.java:556) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:541) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.connect(AbstractChannelHandlerContext.java:523) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.connect(DefaultChannelPipeline.java:985) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.AbstractChannel.connect(AbstractChannel.java:255) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.bootstrap.Bootstrap$3.run(Bootstrap.java:252) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:418) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:454) [browsermob-dist-2.1.4.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:873) [browsermob-dist-2.1.4.jar:?]
+	at java.lang.Thread.run(Thread.java:834) [?:?]
+
+[INFO  2020-09-06T13:01:16,115 org.littleshoot.proxy.impl.DefaultHttpProxyServer] (qtp948960194-16) Shutting down proxy server gracefully 
+[INFO  2020-09-06T13:01:16,115 org.littleshoot.proxy.impl.DefaultHttpProxyServer] (qtp948960194-16) Closing all channels (graceful) 
+[INFO  2020-09-06T13:01:16,118 org.littleshoot.proxy.impl.ServerGroup] (qtp948960194-16) Shutting down server group event loops (graceful) 
+[INFO  2020-09-06T13:01:18,331 org.littleshoot.proxy.impl.DefaultHttpProxyServer] (qtp948960194-16) Done shutting down proxy server 

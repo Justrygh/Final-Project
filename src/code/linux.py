@@ -14,26 +14,16 @@ class Linux:
         self.configure_dns()
 
     def configure_doh_stub(self):
-        listen_port = "5353"
+        with open("../../stubby_conf/resolv.conf", "w") as f:
+            f.write("nameserver 127.0.0.1")
+        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
+
+        listen_port = "53"
         listen_addr = "127.0.0.1"
         self.domain = cr(self.resolver)
         cmd = "sudo doh-stub --listen-port {0} --listen-address {1} --domain {2} --remote-address {3} &".format(listen_port,listen_addr,self.domain,self.resolver)
-        # run(["sudo", "doh-stub", "--listen-port",listen_port , "--listen-address", listen_addr, "--domain",self.domain,
-        #       "--remote-address",self.resolver,"&"])
         os.system(cmd)
-        with open("../../stubby_conf/resolv.conf", "w") as f:
-            f.write("nameserver 127.0.0.1")
-        os.system("iptables -t nat -A PREROUTING -p udp -i lo --dport 53 -j DNAT --to-destination {0}:{1}".format(listen_addr, listen_port))
-        sleep(1)
 
-
-        # if self.resolver == '1.1.1.1':
-        #     run(["sudo", "doh-stub", "--listen-port 5353", "--listen-address 127.0.0.1", "--domain cloudflare-dns.com", "--remote-address 1.1.1.1"])
-        # elif self.resolver == '9.9.9.9':
-        #     run(["sudo", "stubby", "-C", "../../stubby_conf/stubby-quad9.yml", "-g"])
-        # elif self.resolver == '8.8.8.8':
-        #     run(["sudo", "stubby", "-C", "../../stubby_conf/stubby-google.yml", "-g"])
-        # run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
     def close_doh(self):
         with open("../../stubby_conf/resolv.conf", "w") as f:
             f.write("nameserver " + self.resolver)

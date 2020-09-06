@@ -111,3 +111,23 @@ console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Err
 1599410453109	Marionette	INFO	Listening on port 33563
 1599410453137	Marionette	WARN	TLS certificate errors will be ignored for this session
 1599410460036	Marionette	INFO	Stopped listening on port 33563
+1599411661250	geckodriver	INFO	Listening on 127.0.0.1:35729
+1599411662255	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofiletKPco9"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1599411665815	Marionette	INFO	Listening on port 44871
+1599411665890	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: services.settings: 
+  main/messaging-experiments Signature failed  TypeError: NetworkError when attempting to fetch resource.
+console.error: services.settings: 
+  main/message-groups Signature failed  TypeError: NetworkError when attempting to fetch resource.
+console.error: services.settings: 
+  main/fxmonitor-breaches Signature failed  TypeError: NetworkError when attempting to fetch resource.
+console.error: services.settings: 
+  main/cfr-fxa Signature failed  TypeError: NetworkError when attempting to fetch resource.
+console.error: services.settings: 
+  main/cfr Signature failed  TypeError: NetworkError when attempting to fetch resource.
+console.error: services.settings: 
+  main/whats-new-panel Signature failed  TypeError: NetworkError when attempting to fetch resource.
+console.error: services.settings: 
+  main/partitioning-exempt-urls Signature failed  TypeError: NetworkError when attempting to fetch resource.
+1599411675496	Marionette	INFO	Stopped listening on port 44871
