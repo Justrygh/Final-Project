@@ -1,5 +1,7 @@
 import uuid
 import platform
+from time import sleep
+import json
 from ping3 import ping
 from dns_timings import measure_dns
 from proxy import Proxy
@@ -48,14 +50,16 @@ def experiment(web_driver):
                 print("Creating HAR for Website: https://{}".format(website))
                 proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
                 driver.get("https://{}".format(website))
-                har = proxy.har
-                rv = database.insert_har(experiment_uuid, website, browser, recursive, system.tostring(), dns, har, har_uuid, None, delay)
+                har = json.loads(json.dumps(proxy.har))
+                rv = database.insert_har(experiment_uuid, website, browser, recursive, system.tostring(), dns, har,
+                                         har_uuid, None, delay)
                 if not rv:
                     print("Saved HAR for website {}".format(website))
                 try:
                     dns_info = measure_dns(website, har, dns, resolver, system)
                     if dns_info:
-                        rv_dns = database.insert_dns(har_uuid, experiment_uuid, browser, recursive, system.tostring(), dns, dns_info)
+                        rv_dns = database.insert_dns(har_uuid, experiment_uuid, browser, recursive, system.tostring(),
+                                                     dns, dns_info)
                         if not rv_dns:
                             print("Saved DNS for website {}".format(website))
                             print("===========================================================\n")
@@ -66,6 +70,7 @@ def experiment(web_driver):
 
             if dns == "dot":
                 system.close_stubby()
+
         driver.quit()
 
 
@@ -92,6 +97,7 @@ def main():
     p = Proxy()
     p.create_server()
     experiment(p)
+    p.close_server()
 
 
 if __name__ == '__main__':
