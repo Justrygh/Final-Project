@@ -55,5 +55,5 @@ class Proxy:
         return self.driver
 
     def get_proxy(self):
-        return self.get_proxy()
+        return self.proxy
 

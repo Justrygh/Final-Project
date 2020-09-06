@@ -40,7 +40,7 @@ def experiment(web_driver):
             print("=====> Using Firefox <=====")
         for dns in dns_types:
             if dns == "dot":
-                system.configure_stubby(resolver)
+                system.configure_stubby()
             for website in websites:
                 har_uuid = uuid.uuid1()
                 print("===========================================================")
@@ -65,7 +65,7 @@ def experiment(web_driver):
                     print("An exception occurred! Please try again later.")
 
             if dns == "dot":
-                system.close_stubby(resolver)
+                system.close_stubby()
         driver.quit()
 
 

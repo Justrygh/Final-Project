@@ -26,7 +26,7 @@ class Linux:
         """ Configure DNS Resolver - Cloudflare / Google / Quad9 """
         print("Make sure you run the script as administrator, if not please relaunch as administrator.")
         self.resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
-        while self.resolver != "1.1.1.1" or self.resolver != "8.8.8.8" or self.resolver != "9.9.9.9":
+        while self.resolver != "1.1.1.1" and self.resolver != "8.8.8.8" and self.resolver != "9.9.9.9":
             print("Wrong input, Please try again!")
             self.resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
         os.system('echo "nameserver {}" > /etc/resolv.conf'.format(self.resolver))
@@ -53,12 +53,13 @@ class Linux:
     def get_dns_metadata(self):
         return self.resolver, self.recursive
 
-    @staticmethod
-    def tostring():
+    def tostring(self):
         return "Linux"
 
-    @staticmethod
-    def measure(dns_type, resolver, domains_filename):
+    def measure(self, dns_type, resolver, domains_filename):
         cmd = ["dns-timing/dns-timing", dns_type, resolver, domains_filename]
+        print("2")
         output = check_output(cmd, stderr=STDOUT)
+        print("3")
+        print(output)
         return output

@@ -20,7 +20,9 @@ def measure_dns(website, har, dns_type, resolver, system):
         elif dns_type == 'doh':
             resolver = convert_resolver(resolver)
 
+        print(system)
         output = system.measure()
+        print(output)
         output = output.decode('utf-8')
         all_dns_info = parse_output(output, website, domains)
         os.remove(domains_filename)

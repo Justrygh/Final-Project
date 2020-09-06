@@ -1,0 +1,75 @@
+1599388053505	geckodriver	INFO	Listening on 127.0.0.1:45085
+1599388054511	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilevksfll"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1599388058833	Marionette	INFO	Listening on port 33609
+console.error: Region.jsm: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 343))
+1599388058866	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://1.1.1.1/help-c6bfa1e5a897e7c035b4.js, line 1: TypeError: t is undefined
+JavaScript error: https://maps.googleapis.com/maps/api/js?key=AIzaSyCuebBICxH3FZeML7_xQVszyKm_sswAcac&libraries=places, line 87: Error: Could not load "util".
+1599388082042	Marionette	INFO	Stopped listening on port 33609
+1599388174494	geckodriver	INFO	Listening on 127.0.0.1:40159
+1599388174503	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilefXcGsN"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1599388177325	Marionette	INFO	Listening on port 40671
+1599388177376	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 343))
+1599388181656	Marionette	INFO	Stopped listening on port 40671
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1599388318440	geckodriver	INFO	Listening on 127.0.0.1:33953
+1599388318449	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilejzhrOE"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1599388321018	Marionette	INFO	Listening on port 41343
+1599388321090	Marionette	WARN	TLS certificate errors will be ignored for this session
+1599388325342	Marionette	INFO	Stopped listening on port 41343
+1599388380390	geckodriver	INFO	Listening on 127.0.0.1:54059
+1599388380401	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilelWUZuV"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1599388383137	Marionette	INFO	Listening on port 36933
+1599388383233	Marionette	WARN	TLS certificate errors will be ignored for this session
+1599388387391	Marionette	INFO	Stopped listening on port 36933
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1599388432630	geckodriver	INFO	Listening on 127.0.0.1:54105
+1599388432640	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile64ejCS"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1599388435285	Marionette	INFO	Listening on port 33233
+1599388435386	Marionette	WARN	TLS certificate errors will be ignored for this session
+1599388439874	Marionette	INFO	Stopped listening on port 33233
+1599388668746	geckodriver	INFO	Listening on 127.0.0.1:36957
+1599388668754	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilehxAOBB"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+console.error: Region.jsm: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 343))
+1599388671499	Marionette	INFO	Listening on port 44645
+1599388671581	Marionette	WARN	TLS certificate errors will be ignored for this session
+1599388675116	Marionette	INFO	Stopped listening on port 44645
+1599388722740	geckodriver	INFO	Listening on 127.0.0.1:37549
+1599388722754	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilerP4rck"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1599388725751	Marionette	INFO	Listening on port 36749
+console.error: Region.jsm: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 343))
+1599388725788	Marionette	WARN	TLS certificate errors will be ignored for this session
+1599388730543	Marionette	INFO	Stopped listening on port 36749
+1599388795191	geckodriver	INFO	Listening on 127.0.0.1:40697
+1599388795203	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileJHN2c3"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+console.error: Region.jsm: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 343))
+1599388798300	Marionette	INFO	Listening on port 41645
+1599388798391	Marionette	WARN	TLS certificate errors will be ignored for this session
+1599388802576	Marionette	INFO	Stopped listening on port 41645
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x6B0029,name=PNecko::Msg_RemoveRequestContext) Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
