@@ -1,6 +1,5 @@
 import uuid
 import platform
-from time import sleep
 import json
 from ping3 import ping
 from dns_timings import measure_dns
@@ -43,6 +42,8 @@ def experiment(web_driver):
         for dns in dns_types:
             if dns == "dot":
                 system.configure_stubby()
+            if dns == "doh":
+                system.configure_doh_stub()
             for website in websites:
                 har_uuid = uuid.uuid1()
                 print("===========================================================")
@@ -70,6 +71,8 @@ def experiment(web_driver):
 
             if dns == "dot":
                 system.close_stubby()
+            elif dns == "doh":
+                system.close_doh()
 
         driver.quit()
 
