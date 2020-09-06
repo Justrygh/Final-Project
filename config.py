@@ -6,27 +6,24 @@ class Config:
     def __init__(self):
         self.database = None
         self.websites = None
-        self.configuration()
+        self.config()
 
     def configure_database(self):
-        """ Configure Database - PostgreSQL """
+        print("=====> Connecting to Database - Please Wait... <=====")
         self.database = DNSDatabase.init_from_config_file('postgres.ini')
         self.database._connect()
 
     def collect_websites(self):
-        """ Configure Websites """
+        print("=====> Collecting Websites - Please Wait... <=====")
         webs = open("websites.txt", "r")
         self.websites = webs.read().split('\n')
         if self.websites[-1] == '':
             del self.websites[-1]
         webs.close()
 
-    def configuration(self):
+    def config(self):
         self.configure_database()
         self.collect_websites()
 
-    def get_websites(self):
-        return self.websites
-
-    def get_database(self):
-        return self.database
+    def get_configuration(self):
+        return self.database, self.websites

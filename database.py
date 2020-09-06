@@ -7,7 +7,9 @@ from configparser import ConfigParser
 
 log = logging.getLogger('postgres')
 
+
 class DNSDatabase:
+
     def __init__(self, database, user, password, host, har_table, dns_table):
         self.har_table = har_table
         self.dns_table = dns_table
@@ -376,6 +378,7 @@ class DNSDatabase:
         rv = self.cursor.fetchall()
         return rv
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('database_config_file')
@@ -388,6 +391,7 @@ def main():
         d.delete_table(d.dns_table)
     d.create_har_table()
     d.create_dns_table()
+
 
 if __name__ == "__main__":
     main()

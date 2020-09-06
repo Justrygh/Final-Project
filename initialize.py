@@ -1,16 +1,17 @@
 import os
 
 
-class Experiment:
+class Initialize:
 
     def __init__(self):
         self.browsers = []
         self.dns = []
+        self.select()
 
     def select_browsers(self):
-        """ Configure Browsers - Chrome / Firefox """
+        print("Please select which Browser you wish to use in the experiment: ")
         while True:
-            browser = input("Choose Browser - Firefox / Chrome / Both: ").lower()
+            browser = input("Firefox / Chrome / Both: ").lower()
             if browser == "firefox":
                 self.browsers.append("Firefox")
                 break
@@ -25,38 +26,43 @@ class Experiment:
                 print("Wrong input, Please try again!")
 
     def select_dns(self):
-        """ Configure DNS Types """
-        counter = 0
-        while counter != 1:
+        print("Please select DNS types you wish to use in the experiment: ")
+        while True:
             output = input("Do you want to use Do53? (Y/N)").lower()
             if output == "y":
                 self.dns.append("dns")
-                counter += 1
+                break
             elif output == "n":
-                counter += 1
+                break
             else:
                 print("Wrong input, Please try again!")
 
-        while counter != 2:
+        while True:
             output = input("Do you want to use DoT? (Y/N)").lower()
             if output == "y":
                 self.dns.append("dot")
-                counter += 1
+                break
             elif output == "n":
-                counter += 1
+                break
             else:
                 print("Wrong input, Please try again!")
 
-        while counter != 3:
+        while True:
             output = input("Do you want to use DoH? (Y/N)").lower()
             if output == "y":
                 self.dns.append("doh")
-                counter += 1
+                break
             elif output == "n":
-                counter += 1
+                break
             else:
                 print("Wrong input, Please try again!")
 
+    def select(self):
+        self.select_browsers()
+        self.select_dns()
+
+    def get_initialization(self):
+        return self.browsers, self.dns
 
 
 

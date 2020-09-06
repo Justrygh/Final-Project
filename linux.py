@@ -1,5 +1,5 @@
 import os
-from subprocess import run
+from subprocess import run, check_output, STDOUT
 
 
 class Linux:
@@ -7,6 +7,7 @@ class Linux:
     def __init__(self):
         self.resolver = None
         self.recursive = None
+        self.configure_dns()
 
     def configure_stubby(self):
         """ Configure Stub Resolver - Stubby """
@@ -29,7 +30,6 @@ class Linux:
             print("Wrong input, Please try again!")
             self.resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
         os.system('echo "nameserver {}" > /etc/resolv.conf'.format(self.resolver))
-        self.configure_recursive()
 
     def configure_recursive(self):
         """ Recursive - Name of the Resolver """
@@ -45,3 +45,20 @@ class Linux:
         with open("stubby/resolv.conf", "w") as f:
             f.write("nameserver " + self.resolver)
         run(["sudo", "cp", "stubby/resolv.conf", "/etc/resolv.conf"])
+
+    def configure_dns(self):
+        self.configure_resolver()
+        self.configure_recursive()
+
+    def get_dns_metadata(self):
+        return self.resolver, self.recursive
+
+    @staticmethod
+    def tostring():
+        return "Linux"
+
+    @staticmethod
+    def measure(dns_type, resolver, domains_filename):
+        cmd = ["dns-timing/dns-timing", dns_type, resolver, domains_filename]
+        output = check_output(cmd, stderr=STDOUT)
+        return output

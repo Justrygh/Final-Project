@@ -8,8 +8,7 @@ import platform
 log = logging.getLogger('postgres')
 
 
-def measure_dns(website, har, dns_type, resolver):
-    operation_system = platform.system()
+def measure_dns(website, har, dns_type, resolver, system):
     domains = get_unique_domains(har)
     domains_filename = "domains.txt"
     write_domains(domains, domains_filename)
@@ -18,20 +17,10 @@ def measure_dns(website, har, dns_type, resolver):
         if dns_type == 'dns':
             dns_type = 'do53'
 
-        if operation_system == "Linux":
-            cmd = ["dns-timing/dns-timing", dns_type, resolver, domains_filename]
-            output = check_output(cmd, stderr=STDOUT)
+        elif dns_type == 'doh':
+            resolver = convert_resolver(resolver)
 
-        elif operation_system == "Windows":
-            cmd = "dns-timing/dns-timing {0} {1} {2}".format(dns_type, resolver, domains_filename)
-            project_path = os.getcwd()
-            project_path = project_path.split("\\")
-            project_path[0] = project_path[0][:-1].lower()
-            project_path = "/".join(project_path)
-            project_path = "cd ../../mnt/" + project_path
-            run_input = project_path + " && " + cmd
-            output = run("ubuntu", shell=True, stdout=PIPE, input=run_input, encoding='ascii')
-
+        output = system.measure()
         output = output.decode('utf-8')
         all_dns_info = parse_output(output, website, domains)
         os.remove(domains_filename)
@@ -114,3 +103,14 @@ def write_domains(domains, domains_filename):
         for d in domains:
             f.write("{0}\n".format(d))
         f.close()
+
+
+def convert_resolver(resolver):
+    """ Resolver for DoH - convert ip to address """
+    if resolver == "1.1.1.1":
+        resolver = "https://cloudflare-dns.com/dns-query"
+    elif resolver == "8.8.8.8":
+        resolver = "https://dns.google/dns-qeury"
+    elif resolver == "9.9.9.9":
+        resolver = "https://dns.quad9.net/dns-query"
+    return resolver

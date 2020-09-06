@@ -13,15 +13,16 @@ class Proxy:
         self.driver = None
 
     def create_server(self):
-        """ Configure Server - Creating New Proxy Server """
+        """
+        :return:
+        """
         print("=====> Creating New Server - Please Wait... <=====")
-        self.configure_proxy()
+        self.proxy_path()
         self.proxy_server = Server(self.path)
         self.proxy_server.start()
         self.proxy = self.proxy_server.create_proxy()
 
-    def configure_proxy(self):
-        """ Configure Proxy Server """
+    def proxy_path(self):
         proxy_path = os.getcwd()
         proxy = ["browsermob-proxy-2.1.4", "bin", "browsermob-proxy"]
         for path in proxy:
@@ -29,12 +30,12 @@ class Proxy:
         self.path = proxy_path
 
     def close_server(self):
-        """ Close the Server """
+        print("=====> Closing the Server - Please Wait... <=====")
         self.proxy.close()
         self.proxy_server.stop()
 
     def chrome_browser(self):
-        """ Configure Chrome Web Driver """
+        print("=====> Configuring Chrome Web Driver - Please Wait... <=====")
         chrome_driver = os.path.join(os.path.join(os.getcwd(), "drivers"), "chromedriver")
         url = urlparse.urlparse(self.proxy.proxy).path
         chrome_options = webdriver.ChromeOptions()
@@ -43,7 +44,7 @@ class Proxy:
         self.driver = webdriver.Chrome(chrome_driver, options=chrome_options)
 
     def firefox_browser(self):
-        """ Configure Firefox Web Driver """
+        print("=====> Configuring Firefox Web Driver - Please Wait... <=====")
         path = os.path.join(os.path.join(os.getcwd(), "drivers"), "geckodriver")
         profile = webdriver.FirefoxProfile()
         selenium_proxy = self.proxy.selenium_proxy()
@@ -52,4 +53,7 @@ class Proxy:
 
     def get_driver(self):
         return self.driver
+
+    def get_proxy(self):
+        return self.get_proxy()
 

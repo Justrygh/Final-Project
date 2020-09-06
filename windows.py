@@ -8,6 +8,7 @@ class Windows:
         self.resolver = None
         self.recursive = None
 
+    """ Fix configure stubby -> Run using CMD instead of WSL."""
     def configure_stubby(self):
         """ Configure Stub Resolver - Stubby """
         with open("stubby/resolv.conf", "w") as f:
@@ -31,7 +32,6 @@ class Windows:
             print("Wrong input, Please try again!")
             self.resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
         os.system('netsh interface ip set dns name="{0}" source="static" address="{1}"'.format(interface, self.resolver))
-        self.configure_recursive()
 
     def configure_recursive(self):
         """ Recursive - Name of the Resolver """
@@ -47,3 +47,22 @@ class Windows:
         with open("stubby/resolv.conf", "w") as f:
             f.write("nameserver " + self.resolver)
         run("ubuntu", shell=True, stdout=PIPE, input="sudo cp stubby/resolv.conf /etc/resolv.conf", encoding='ascii')
+
+    def get_dns_metadata(self):
+        return self.resolver, self.recursive
+
+    @staticmethod
+    def tostring():
+        return "Windows"
+
+    @staticmethod
+    def measure(dns_type, resolver, domains_filename):
+        cmd = "dns-timing/dns-timing {0} {1} {2}".format(dns_type, resolver, domains_filename)
+        project_path = os.getcwd()
+        project_path = project_path.split("\\")
+        project_path[0] = project_path[0][:-1].lower()
+        project_path = "/".join(project_path)
+        project_path = "cd ../../mnt/" + project_path
+        run_input = project_path + " && " + cmd
+        output = run("ubuntu", shell=True, stdout=PIPE, input=run_input, encoding='ascii')
+        return output
