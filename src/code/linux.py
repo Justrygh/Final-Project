@@ -11,16 +11,16 @@ class Linux:
 
     def configure_stubby(self):
         """ Configure Stub Resolver - Stubby """
-        with open("stubby_conf/resolv.conf", "w") as f:
+        with open("../../stubby_conf/resolv.conf", "w") as f:
             f.write("nameserver 127.0.0.1")
 
         if self.resolver == '1.1.1.1':
-            run(["sudo", "stubby", "-C", "stubby_conf/stubby-cf.yml", "-g"])
+            run(["sudo", "stubby", "-C", "../../stubby_conf/stubby-cf.yml", "-g"])
         elif self.resolver == '9.9.9.9':
-            run(["sudo", "stubby", "-C", "stubby_conf/stubby-quad9.yml", "-g"])
+            run(["sudo", "stubby", "-C", "../../stubby_conf/stubby-quad9.yml", "-g"])
         elif self.resolver == '8.8.8.8':
-            run(["sudo", "stubby", "-C", "stubby_conf/stubby-google.yml", "-g"])
-        run(["sudo", "cp", "stubby_conf/resolv.conf", "/etc/resolv.conf"])
+            run(["sudo", "stubby", "-C", "../../stubby_conf/stubby-google.yml", "-g"])
+        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
 
     def configure_resolver(self):
         """ Configure DNS Resolver - Cloudflare / Google / Quad9 """
@@ -33,7 +33,7 @@ class Linux:
 
     def configure_recursive(self):
         """ Recursive - Name of the Resolver """
-        if self.resolver == "1.1.1.1":
+        if self.resolver == "1.1.1.1"   :
             self.recursive = "Cloudflare"
         elif self.resolver == "8.8.8.8":
             self.recursive = "Google"
@@ -42,9 +42,9 @@ class Linux:
 
     def close_stubby(self):
         """ Configure Stub Resolver - Stubby (= Default ) """
-        with open("stubby_conf/resolv.conf", "w") as f:
+        with open("../../stubby_conf/resolv.conf", "w") as f:
             f.write("nameserver " + self.resolver)
-        run(["sudo", "cp", "stubby_conf/resolv.conf", "/etc/resolv.conf"])
+        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
 
     def configure_dns(self):
         self.configure_resolver()

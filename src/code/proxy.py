@@ -24,7 +24,7 @@ class Proxy:
 
     def proxy_path(self):
         proxy_path = os.getcwd()
-        proxy = ["browsermob-proxy-2.1.4", "bin", "browsermob-proxy"]
+        proxy = ["..", "..", "browsermob-proxy-2.1.4", "bin", "browsermob-proxy"]
         for path in proxy:
             proxy_path = os.path.join(proxy_path, path)
         self.path = proxy_path
@@ -36,16 +36,16 @@ class Proxy:
 
     def chrome_browser(self):
         print("=====> Configuring Chrome Web Driver - Please Wait... <=====")
-        chrome_driver = os.path.join(os.path.join(os.getcwd(), "drivers"), "chromedriver")
+        path = os.path.join(os.getcwd(), "..", "..", "drivers", "chromedriver")
         url = urlparse.urlparse(self.proxy.proxy).path
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--proxy-server={0}".format(url))
         chrome_options.add_argument('--ignore-certificate-errors')
-        self.driver = webdriver.Chrome(chrome_driver, options=chrome_options)
+        self.driver = webdriver.Chrome(path, options=chrome_options)
 
     def firefox_browser(self):
         print("=====> Configuring Firefox Web Driver - Please Wait... <=====")
-        path = os.path.join(os.path.join(os.getcwd(), "drivers"), "geckodriver")
+        path = os.path.join(os.getcwd(), "..", "..", "drivers", "geckodriver")
         profile = webdriver.FirefoxProfile()
         selenium_proxy = self.proxy.selenium_proxy()
         profile.set_proxy(selenium_proxy)

@@ -1,8 +1,6 @@
 import os
 import logging.config
 import tldextract
-from subprocess import call, run, PIPE, check_output, STDOUT
-import platform
 
 
 log = logging.getLogger('postgres')

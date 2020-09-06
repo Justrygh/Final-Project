@@ -1,4 +1,5 @@
-from database import DNSDatabase
+from database.database import DNSDatabase
+import os
 
 
 class Config:
@@ -10,12 +11,15 @@ class Config:
 
     def configure_database(self):
         print("=====> Connecting to Database - Please Wait... <=====")
-        self.database = DNSDatabase.init_from_config_file('postgres.ini')
+        path = os.path.join("database", "postgres.ini")
+        self.database = DNSDatabase.init_from_config_file(path)
         self.database._connect()
 
     def collect_websites(self):
         print("=====> Collecting Websites - Please Wait... <=====")
-        webs = open("websites.txt", "r")
+
+        path = os.path.join("..", "websites.txt")
+        webs = open(path, "r")
         self.websites = webs.read().split('\n')
         if self.websites[-1] == '':
             del self.websites[-1]
