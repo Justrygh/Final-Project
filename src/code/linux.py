@@ -2,8 +2,6 @@ import os
 from subprocess import run, check_output, STDOUT
 from time import sleep
 
-from dns_timings import convert_resolver as cr
-
 
 class Linux:
 
@@ -12,23 +10,23 @@ class Linux:
         self.recursive = None
         self.domain = None
         self.configure_dns()
+        self.get_domain()
 
     def configure_doh_stub(self):
-        with open("../../stubby_conf/resolv.conf", "w") as f:
-            f.write("nameserver 127.0.0.1")
-        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
-
         listen_port = "53"
         listen_addr = "127.0.0.1"
-        self.domain = cr(self.resolver)
-        cmd = "sudo doh-stub --listen-port {0} --listen-address {1} --domain {2} --remote-address {3} &".format(listen_port,listen_addr,self.domain,self.resolver)
+
+        with open("../../stubby_conf/resolv.conf", "w") as f:
+            f.write("nameserver {0}".format(listen_addr))
+        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
+
+        cmd = "sudo doh-stub --listen-port {0} --listen-address {1} --domain {2} --remote-address {3} > /dev/null 2>&1 &".format(listen_port, listen_addr, self.domain, self.resolver)
         os.system(cmd)
 
     def close_doh(self):
         with open("../../stubby_conf/resolv.conf", "w") as f:
             f.write("nameserver " + self.resolver)
         run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
-
 
     def configure_stubby(self):
         """ Configure Stub Resolver - Stubby """
@@ -81,3 +79,12 @@ class Linux:
         cmd = ["dns-timing/dns-timing", dns_type, resolver, domains_filename]
         output = check_output(cmd, stderr=STDOUT)
         return output
+
+    def get_domain(self):
+        """ Resolver for DoH - convert ip to address """
+        if self.resolver == "1.1.1.1":
+            self.domain = "cloudflare-dns.com"
+        elif self.resolver == "8.8.8.8":
+            self.domain = "dns.google"
+        elif self.resolver == "9.9.9.9":
+            self.domain = "dns.quad9.net"
