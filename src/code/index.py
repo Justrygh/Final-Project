@@ -31,15 +31,16 @@ def experiment(web_driver):
     for browser in browsers:
         experiment_uuid = uuid.uuid1()
         print("=====> Configuring Server - Please Wait... <=====")
-        if browser == "Chrome":
-            web_driver.chrome_browser()
-            driver = web_driver.get_driver()
-            print("=====> Using Google Chrome <=====")
-        if browser == "Firefox":
-            web_driver.firefox_browser()
-            driver = web_driver.get_driver()
-            print("=====> Using Firefox <=====")
         for dns in dns_types:
+            if browser == "Chrome":
+                web_driver.chrome_browser()
+                driver = web_driver.get_driver()
+                print("=====> Using Google Chrome <=====")
+            if browser == "Firefox":
+                web_driver.firefox_browser()
+                driver = web_driver.get_driver()
+                print("=====> Using Firefox <=====")
+
             if dns == "dot":
                 system.configure_stubby()
             if dns == "doh":
@@ -69,12 +70,13 @@ def experiment(web_driver):
                 except:
                     print("An exception occurred! Please try again later.")
 
+                ##########################3333 clear cache
             if dns == "dot":
                 system.close_stubby()
             elif dns == "doh":
                 system.close_doh()
 
-        driver.quit()
+            driver.quit()
 
 
 def container():

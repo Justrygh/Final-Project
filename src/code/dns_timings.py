@@ -106,9 +106,10 @@ def write_domains(domains, domains_filename):
 def convert_resolver(resolver):
     """ Resolver for DoH - convert ip to address """
     if resolver == "1.1.1.1":
-        resolver = "https://cloudflare-dns.com/dns-query"
+        return "https://cloudflare-dns.com/dns-query"
     elif resolver == "8.8.8.8":
-        resolver = "https://dns.google/dns-query"
+        return "https://dns.google/dns-query"
     elif resolver == "9.9.9.9":
-        resolver = "https://dns.quad9.net/dns-query"
-    return resolver
+        return "https://dns.quad9.net/dns-query"
+    else:
+        print("No resolver uri for this IP")

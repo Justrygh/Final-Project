@@ -16,30 +16,39 @@ class Linux:
         listen_port = "53"
         listen_addr = "127.0.0.1"
 
-        with open("../../stubby_conf/resolv.conf", "w") as f:
+        with open("../stubby_conf/resolv.conf", "w") as f:
             f.write("nameserver {0}".format(listen_addr))
-        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
+        run(["sudo", "cp", "../stubby_conf/resolv.conf", "/etc/resolv.conf"])
 
-        cmd = "sudo doh-stub --listen-port {0} --listen-address {1} --domain {2} --remote-address {3} > /dev/null 2>&1 &".format(listen_port, listen_addr, self.domain, self.resolver)
+        cmd = "sudo doh-stub --listen-port {0} --listen-address {1} --domain {2} --remote-address {3} > /dev/null " \
+              "2>&1 &".format(listen_port, listen_addr, self.domain, self.resolver)
         os.system(cmd)
 
     def close_doh(self):
-        with open("../../stubby_conf/resolv.conf", "w") as f:
+        with open("../stubby_conf/resolv.conf", "w") as f:
             f.write("nameserver " + self.resolver)
-        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
+        run(["sudo", "cp", "../stubby_conf/resolv.conf", "/etc/resolv.conf"])
+        os.system("pkill -9 doh-stub")
 
     def configure_stubby(self):
         """ Configure Stub Resolver - Stubby """
-        with open("../../stubby_conf/resolv.conf", "w") as f:
+        with open("../stubby_conf/resolv.conf", "w") as f:
             f.write("nameserver 127.0.0.1")
 
         if self.resolver == '1.1.1.1':
-            run(["sudo", "stubby", "-C", "../../stubby_conf/stubby-cf.yml", "-g"])
+            run(["sudo", "stubby", "-C", "../stubby_conf/stubby-cf.yml", "-g"])
         elif self.resolver == '9.9.9.9':
-            run(["sudo", "stubby", "-C", "../../stubby_conf/stubby-quad9.yml", "-g"])
+            run(["sudo", "stubby", "-C", "../stubby_conf/stubby-quad9.yml", "-g"])
         elif self.resolver == '8.8.8.8':
-            run(["sudo", "stubby", "-C", "../../stubby_conf/stubby-google.yml", "-g"])
-        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
+            run(["sudo", "stubby", "-C", "../stubby_conf/stubby-google.yml", "-g"])
+        run(["sudo", "cp", "../stubby_conf/resolv.conf", "/etc/resolv.conf"])
+
+    def close_stubby(self):
+        """ Configure Stub Resolver - Stubby (= Default ) """
+        with open("../stubby_conf/resolv.conf", "w") as f:
+            f.write("nameserver " + self.resolver)
+        run(["sudo", "cp", "../stubby_conf/resolv.conf", "/etc/resolv.conf"])
+        os.system("pkill -9 stubby")
 
     def configure_resolver(self):
         """ Configure DNS Resolver - Cloudflare / Google / Quad9 """
@@ -58,12 +67,6 @@ class Linux:
             self.recursive = "Google"
         elif self.resolver == "9.9.9.9":
             self.recursive = "Quad9"
-
-    def close_stubby(self):
-        """ Configure Stub Resolver - Stubby (= Default ) """
-        with open("../../stubby_conf/resolv.conf", "w") as f:
-            f.write("nameserver " + self.resolver)
-        run(["sudo", "cp", "../../stubby_conf/resolv.conf", "/etc/resolv.conf"])
 
     def configure_dns(self):
         self.configure_resolver()
@@ -88,3 +91,4 @@ class Linux:
             self.domain = "dns.google"
         elif self.resolver == "9.9.9.9":
             self.domain = "dns.quad9.net"
+
