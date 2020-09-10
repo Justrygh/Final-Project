@@ -1,5 +1,5 @@
 firefox
-y
-y
+n
+n
 y
 9.9.9.9

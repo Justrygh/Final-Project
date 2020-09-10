@@ -8,6 +8,7 @@ from config import Config
 from initialize import Initialize
 from windows import Windows
 from linux import Linux
+from time import sleep
 
 
 def ping_resolver(resolver_ip, count=5):
@@ -75,7 +76,7 @@ def experiment(web_driver):
                 system.close_stubby()
             elif dns == "doh":
                 system.close_doh()
-
+            # sleep(10)
             driver.quit()
 
 

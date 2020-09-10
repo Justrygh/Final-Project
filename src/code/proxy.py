@@ -42,6 +42,7 @@ class Proxy:
         chrome_options.add_argument("--proxy-server={0}".format(url))
         chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--incognito')
+        chrome_options.add_argument('--no-sandbox')
         self.driver = webdriver.Chrome(path, options=chrome_options)
 
     def firefox_browser(self):
