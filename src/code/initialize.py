@@ -27,7 +27,7 @@ class Initialize:
     def select_dns(self):
         print("Please select DNS types you wish to use in the experiment: ")
         while True:
-            output = input("Do you want to use Do53? (Y/N)").lower()
+            output = input("Do you want to use Do53? (Y/N): ").lower()
             if output == "y":
                 self.dns.append("dns")
                 break
@@ -37,7 +37,7 @@ class Initialize:
                 print("Wrong input, Please try again!")
 
         while True:
-            output = input("Do you want to use DoT? (Y/N)").lower()
+            output = input("Do you want to use DoT? (Y/N): ").lower()
             if output == "y":
                 self.dns.append("dot")
                 break
@@ -47,7 +47,7 @@ class Initialize:
                 print("Wrong input, Please try again!")
 
         while True:
-            output = input("Do you want to use DoH? (Y/N)").lower()
+            output = input("Do you want to use DoH? (Y/N): ").lower()
             if output == "y":
                 self.dns.append("doh")
                 break
