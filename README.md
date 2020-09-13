@@ -76,11 +76,7 @@ pip3 install -r requirements.txt
 
 ### Installation
 
-1. Clone the repo
-```sh
-git clone https://github.com/Justrygh/Final-Project.git
-```
-2. Once you've installed the dependencies listed above, you need to do a few more things before you can start some measurements:
+Once you've installed the dependencies listed above, you need to do a few more things before you can start some measurements:
 
 * Create a PostgreSQL database and user that has write access to the database
 
