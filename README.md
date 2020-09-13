@@ -16,6 +16,7 @@
 
 * [About the Project](#about-the-project)
 * [Getting Started](#getting-started)
+  * [How to install Windows Subsystem for Linux](#windows-subsystem-for-linux)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
@@ -33,7 +34,17 @@ About
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+#### This project is based on Linux. 
+* In order to run the experiment on Windows, You will need to install WSL (Windows Subsystem Linux). 
+
+### Windows Subsystem for Linux
+
+
+
+
+
+<img src=https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/apps-features-programsfeatures-option.jpg>
+
 
 ### Prerequisites
 Our code was built to run on Linux & Windows. To build the DNS response time measurement tool, You will need to install the following dependencies:
