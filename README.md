@@ -46,7 +46,7 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 Our code was built to run on Linux & Windows. To build the DNS response time measurement tool, You will need to install the following dependencies:
-```sh
+```
 libgetdns10
 libgetdns-dev
 libcurl4-openssl-dev
@@ -57,7 +57,7 @@ libuv1
 ```
 
 To measure page loads, parse the resulting HARs, and insert the HARs into a PostgreSQL database, you will need to install the following dependencies:
-```sh
+```
 python3, python3-pip, python3-dev
 postgresql, postgresql-client
 dnsutils
@@ -70,7 +70,7 @@ default-jdk
 ```
 Lastly, you will need to install the pip packages listed in src/requirements.txt with the following command:
 
-```sh
+```
 pip3 install -r requirements.txt
 ```
 
@@ -84,9 +84,11 @@ Once you've installed the dependencies listed above, you need to do a few more t
 
 * Run the following script to initialize the tables in your database that will store HARs and DNS response times:
 
-* python3 database.py postgres.ini
+```
+python3 database.py postgres.ini
+```
 
-* Run make in src/code/dns-timing to create the DNS response time measurement tool
+* Run ```make``` in src/code/dns-timing to create the DNS response time measurement tool
 
 
 
