@@ -80,7 +80,7 @@ Once you've installed the dependencies listed above, you need to do a few more t
 
 * Create a PostgreSQL database and user that has write access to the database
 
-* Modify the data/postgres.ini file to contain your PostgreSQL credentials. For the har_table field, choose the name of the table that you want to store HARs for page load times. For the dns_table field, choose the name of the table that you want to store DNS response times.
+* Modify the src/code/database/postgres.ini file to contain your PostgreSQL credentials. For the har_table field, choose the name of the table that you want to store HARs for page load times. For the dns_table field, choose the name of the table that you want to store DNS response times.
 
 * Run the following script to initialize the tables in your database that will store HARs and DNS response times:
 
