@@ -70,7 +70,9 @@ default-jdk
 ```
 Lastly, you will need to install the pip packages listed in src/requirements.txt with the following command:
 
+```sh
 pip3 install -r requirements.txt
+```
 
 ### Installation
 
