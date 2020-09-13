@@ -66,7 +66,6 @@ autoconf
 automake
 build-essential
 libtool
-doh-proxy
 default-jdk
 ```
 Lastly, you will need to install the pip packages listed in src/requirements.txt with the following command:
