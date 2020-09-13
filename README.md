@@ -51,7 +51,7 @@ To install WSL using Setting on Windows 10, use these steps:
 4. Click the **Turn Windows features on or off** option from the left pane.
    <img src=https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/controlpanel-turn-windows-features-option.jpg>
 5. Check the **Windows Subsystem for Linux** option.
-   <img src=https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/enable-windows-subsystem-linux-windows-10.jpg width="600" height="500">
+   <img src=https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/enable-windows-subsystem-linux-windows-10.jpg width="700" height="600">
 6. Click the **OK** button.
 7. Click the **Restart now** button.
 
