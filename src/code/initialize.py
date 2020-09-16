@@ -10,7 +10,7 @@ class Initialize:
     def select_browsers(self):
         print("Please select which Browser you wish to use in the experiment: ")
         while True:
-            browser = 'firefox'                                                                 # input("Firefox / Chrome / Both: ").lower()
+            browser = input("Firefox / Chrome / Both: ").lower()
             if browser == "firefox":
                 self.browsers.append("Firefox")
                 break

@@ -1,6 +1,6 @@
 import os
 from subprocess import run, PIPE
-
+from time import sleep
 
 class Windows:
 
@@ -12,10 +12,26 @@ class Windows:
         self.configure_dns()
         self.get_domain()
 
+
+    def configure_doh_stub(self):
+        listen_port = "53"
+        listen_addr = "127.0.0.1"
+
+        os.system('netsh interface ip set dns name="{0}" source="static" address="{1}"'.format(self.interface, listen_addr))
+        sleep(1)
+        cmd = "doh-stub --listen-port {} --listen-address {} --domain {} --remote-address {}".format(listen_port, listen_addr, self.domain, self.resolver)
+        run(cmd)
+
+    def close_doh(self):
+        os.system('netsh interface ip set dns name="{0}" source="static" address="{1}"'.format(self.interface, self.resolver))
+        os.system('taskkill /IM "doh-stub.exe" /F')
+
+
+
     def configure_stubby(self):
         """ Configure Stub Resolver - Stubby """
-        listing_addr = "127.0.0.1"
-        os.system('netsh interface ip set dns name="{0}" source="static" address="{1}"'.format(self.interface, listing_addr))
+        listen_addr = "127.0.0.1"
+        os.system('netsh interface ip set dns name="{0}" source="static" address="{1}"'.format(self.interface, listen_addr))
 
         if self.resolver == '1.1.1.1':
             os.system("..\Stubby\stubby.exe -C ..\stubby_conf\stubby-cf.yml")
@@ -36,8 +52,8 @@ class Windows:
         """ Configure DNS Resolver - Cloudflare / Google / Quad9 """
         print("Make sure you run PyCharm / Python IDE as administrator, if not please relaunch as administrator.\n")
         os.system("netsh interface show interface")
-        self.interface = 'wi-fi'                                                                                   #input("Choose your interface according to your adapter & connection: ")
-        self.resolver =  "8.8.8.8"                                                                                 # input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
+        self.interface = input("Choose your interface according to your adapter & connection: ")
+        self.resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")
         while self.resolver != "1.1.1.1" and self.resolver != "8.8.8.8" and self.resolver != "9.9.9.9":
             print("Wrong input, Please try again!")
             self.resolver = input("Choose your resolver ip - Cloudflare - 1.1.1.1, Google - 8.8.8.8, Quad9 - 9.9.9.9: ")

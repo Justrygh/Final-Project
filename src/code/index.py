@@ -44,11 +44,11 @@ def experiment(web_driver):
                 print("=====> Using Firefox <=====")
 
             if dns == "dot":
-                t1 = threading.Thread(target=system.configure_stubby, daemon=True).start()
+                threading.Thread(target=system.configure_stubby, daemon=True).start()
                 sleep(3)
-                # system.configure_stubby()
             if dns == "doh":
-                system.configure_doh_stub()
+                threading.Thread(target=system.configure_doh_stub, daemon=True).start()
+                sleep(3)
             for website in websites:
                 har_uuid = uuid.uuid1()
                 print("===========================================================")
@@ -74,13 +74,12 @@ def experiment(web_driver):
                 except:
                     print("An exception occurred! Please try again later.")
 
-                ##########################3333 clear cache
             sleep(10)
             if dns == "dot":
                 system.close_stubby()
             elif dns == "doh":
                 system.close_doh()
-          #  driver.quit()
+            driver.quit()
 
 
 def container():
