@@ -1,3 +1,4 @@
+import threading
 import uuid
 import platform
 import json
@@ -34,16 +35,18 @@ def experiment(web_driver):
         print("=====> Configuring Server - Please Wait... <=====")
         for dns in dns_types:
             if browser == "Chrome":
-                web_driver.chrome_browser()
+                web_driver.chrome_browser(system)
                 driver = web_driver.get_driver()
                 print("=====> Using Google Chrome <=====")
             if browser == "Firefox":
-                web_driver.firefox_browser()
+                web_driver.firefox_browser(system)
                 driver = web_driver.get_driver()
                 print("=====> Using Firefox <=====")
 
             if dns == "dot":
-                system.configure_stubby()
+                t1 = threading.Thread(target=system.configure_stubby, daemon=True).start()
+                sleep(3)
+                # system.configure_stubby()
             if dns == "doh":
                 system.configure_doh_stub()
             for website in websites:
@@ -72,12 +75,12 @@ def experiment(web_driver):
                     print("An exception occurred! Please try again later.")
 
                 ##########################3333 clear cache
+            sleep(10)
             if dns == "dot":
                 system.close_stubby()
             elif dns == "doh":
                 system.close_doh()
-            # sleep(10)
-            driver.quit()
+          #  driver.quit()
 
 
 def container():

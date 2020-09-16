@@ -3,6 +3,7 @@ import os
 from selenium import webdriver
 import urllib.parse as urlparse
 
+chrome_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 
 class Proxy:
 
@@ -34,20 +35,25 @@ class Proxy:
         self.proxy.close()
         self.proxy_server.stop()
 
-    def chrome_browser(self):
+    def chrome_browser(self,system):
         print("=====> Configuring Chrome Web Driver - Please Wait... <=====")
-        path = os.path.join(os.getcwd(), "..", "..", "drivers", "chromedriver")
+        path = os.path.join(os.getcwd(), "..", "..", "drivers", "chromedriver.exe")
         url = urlparse.urlparse(self.proxy.proxy).path
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--proxy-server={0}".format(url))
         chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--incognito')
-        chrome_options.add_argument('--no-sandbox')
-        self.driver = webdriver.Chrome(path, options=chrome_options)
+        if system == "Windows":
+            path = path + ".exe"
+            chrome_options.binary_location = chrome_path
+        else:
+            chrome_options.add_argument('--no-sandbox')
 
-    def firefox_browser(self):
+        self.driver = webdriver.Chrome(executable_path=path, chrome_options=chrome_options)
+
+    def firefox_browser(self,system):
         print("=====> Configuring Firefox Web Driver - Please Wait... <=====")
-        path = os.path.join(os.getcwd(), "..", "..", "drivers", "geckodriver")
+        path = os.path.join(os.getcwd(), "..", "..", "drivers", "geckodriver.exe")
         profile = webdriver.FirefoxProfile()
         profile.set_preference("browser.privatebrowsing.autostart", True)
         selenium_proxy = self.proxy.selenium_proxy()
