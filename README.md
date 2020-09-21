@@ -34,7 +34,7 @@ About
 <!-- GETTING STARTED -->
 ## Getting Started
 
-#### This project is based on Linux. 
+**This project is based on Linux.** 
 * In order to run the experiment on Windows, You will need to install WSL (Windows Subsystem Linux). 
 
 ### How to install Windows Subsystem for Linux
@@ -103,10 +103,16 @@ build-essential
 libtool
 default-jdk
 ```
-Lastly, you will need to install the pip packages listed in src/requirements.txt with the following command:
+Lastly, you will need to install the pip packages listed in dependencies/requirements.txt with the following command:
 
 ```
 pip3 install -r requirements.txt
+```
+
+For your convenience, you can install **all** the dependencies mentioned above by running **setup.sh** in dependencies with the following command:
+
+```
+bash setup.sh
 ```
 
 ### Installation
@@ -128,7 +134,7 @@ python3 database.py postgres.ini
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
+Usage
 
 <!-- CONTRIBUTING -->
 ## Contributing
