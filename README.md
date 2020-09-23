@@ -5,7 +5,9 @@
   <h3 align="center">Enrichment Metadata from DNS over HTTPS Traffic</h3>
 
   <p align="center">
-    Description
+    Classify encrypted traffic by separating WEB and DNS queries over the HTTPS session (port 443), moreover extract as much information as possible. E.g: GET/POST method.
+  Therefore, our research suggests improving the end-user security, by trying to filter the malicious domain that queried from the Internet Service Provider server using Machine Learning .
+
   </p>
 </p>
 
@@ -15,6 +17,7 @@
 ## Table of Contents
 
 * [About the Project](#about-the-project)
+  * [Background](#background)
 * [Getting Started](#getting-started)
   * [Windows Subsystem for Linux](#how-to-install-windows-subsystem-for-linux)
   * [Prerequisites](#prerequisites)
@@ -29,7 +32,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-About
+### Background
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
