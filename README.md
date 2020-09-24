@@ -19,7 +19,6 @@
 * [About the Project](#about-the-project)
   * [Background](#background)
 * [Getting Started](#getting-started)
-  * [Windows Subsystem for Linux](#how-to-install-windows-subsystem-for-linux)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
@@ -40,47 +39,6 @@
 
 **This project is based on Linux.** 
 * In order to run the experiment on Windows, You will need to install WSL (Windows Subsystem Linux). 
-
-### How to install Windows Subsystem for Linux
-<p>
-  If you want to run distros of Linux on Windows 10, you must first enable the Windows Subsystem for Linux feature before you can download and install the flavor of Linux that you want to use.
-  </p>
-
-### Enabling Windows Subsystem for Linux using Settings
-To install WSL using Setting on Windows 10, use these steps:
-1. Open **Settings**.
-2. Click on **Apps**.
-3. Under the "Related settings" section, click the **Programs and Features** option.
-   <img src=https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/apps-features-programsfeatures-option.jpg>
-4. Click the **Turn Windows features on or off** option from the left pane.
-   <img src=https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/controlpanel-turn-windows-features-option.jpg>
-5. Check the **Windows Subsystem for Linux** option.
-   <img src=https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/enable-windows-subsystem-linux-windows-10.jpg width="700" height="600">
-6. Click the **OK** button.
-7. Click the **Restart now** button.
-
-Once you complete the steps, the environment will be configured to download and run the distros of Linux on Windows 10.
-
-### Installing Linux distros using Microsoft Store
-To install a distribution of Linux on Windows 10, use these steps:
-
-1. Open **Microsoft Store**.
-2. Search for the Linux distribution that you want to install.
-   * Ubuntu.
-   * Kali Linux.
-   * Debian.
-3. Select the distro of Linux to install on your device.
-   <img src="https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/linux-microsoft-store-download.jpg">
-4. Click the **Get** (or **Install**) button.
-   <img src="https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/install-ubuntu-microsoftstore.jpg">
-5. Click the **Launch** button.
-6. Create a username for the Linux distro and press **Enter**.
-7. Specify a password for the distro and press **Enter**.
-   <img src="https://www.windowscentral.com/sites/wpcentral.com/files/styles/xlarge/public/field/image/2019/12/setup-ubuntu-wsl-windows10.jpg">
-8. Repeat the password and press **Enter** to confirm.
-
-After you complete the steps, you can start using the distro as any other flavor of Linux (without the graphical user interface, of course).
-
 
 
 ### Prerequisites 
