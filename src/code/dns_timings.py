@@ -1,15 +1,14 @@
 import os
 import logging.config
 import tldextract
-
+from subprocess import run
 
 log = logging.getLogger('postgres')
 
 
 def measure_dns(website, har, dns_type, resolver, system):
     domains = get_unique_domains(har)
-    domains_filename = "domains.txt"
-    write_domains(domains, domains_filename)
+    domains_filename = write_domains(domains, system)
 
     try:
         if dns_type == 'dns':
@@ -18,8 +17,7 @@ def measure_dns(website, har, dns_type, resolver, system):
         elif dns_type == 'doh':
             resolver = convert_resolver(resolver)
 
-        output = system.measure(dns_type, resolver, domains_filename)
-        output = output.decode('utf-8')
+        output = system.measure(dns_type, resolver, "domains.txt")
         all_dns_info = parse_output(output, website, domains)
         os.remove(domains_filename)
         return all_dns_info
@@ -96,11 +94,22 @@ def get_unique_domains(har):
     return list(set(domains))
 
 
-def write_domains(domains, domains_filename):
+def write_domains(domains, system):
+    domains_filename = os.path.join(os.getcwd(), "dns-timing", "domains.txt")
     with open(domains_filename, 'w') as f:
         for d in domains:
             f.write("{0}\n".format(d))
         f.close()
+
+    if system.tostring() == "Windows":
+        project_path = os.getcwd()
+        project_path = project_path.split("\\")
+        project_path[0] = project_path[0][:-1].lower()
+        project_path = "/".join(project_path)
+        project_path = "/mnt/" + project_path + "/dns-timing/domains.txt"
+        input = "sed -i 's/\r//g' "+ project_path
+        run("ubuntu", shell=True, input=input, encoding='ascii')
+    return domains_filename
 
 
 def convert_resolver(resolver):

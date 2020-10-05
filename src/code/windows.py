@@ -81,15 +81,15 @@ class Windows:
 
     @staticmethod
     def measure(dns_type, resolver, domains_filename):
-        cmd = "dns-timing/dns-timing {0} {1} {2}".format(dns_type, resolver, domains_filename)
+        cmd = "./dns-timing {0} {1} {2}".format(dns_type, resolver, domains_filename)
         project_path = os.getcwd()
         project_path = project_path.split("\\")
         project_path[0] = project_path[0][:-1].lower()
         project_path = "/".join(project_path)
-        project_path = "cd ../../mnt/" + project_path
+        project_path = "cd /mnt/" + project_path + "/dns-timing"
         run_input = project_path + " && " + cmd
         output = run("ubuntu", shell=True, stdout=PIPE, input=run_input, encoding='ascii')
-        return output
+        return output.stdout
 
     def get_domain(self):
         """ Resolver for DoH - convert ip to address """

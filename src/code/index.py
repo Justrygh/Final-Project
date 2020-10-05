@@ -28,7 +28,7 @@ def ping_resolver(resolver_ip, count=5):
 
 def experiment(web_driver):
     """ Experiment """
-    database, websites, browsers, dns_types, resolver, recursive, system, delay = container()
+    database, websites, browsers, dns_types, resolver, recursive, system = container()
     proxy = web_driver.get_proxy()
     for browser in browsers:
         experiment_uuid = uuid.uuid1()
@@ -50,13 +50,14 @@ def experiment(web_driver):
                 threading.Thread(target=system.configure_doh_stub, daemon=True).start()
                 sleep(3)
             for website in websites:
+                delay = ping_resolver(resolver)
                 har_uuid = uuid.uuid1()
                 print("===========================================================")
                 print("Type: ", dns, " | Resolver: ", recursive)
                 print("Creating HAR for Website: https://{}".format(website))
                 proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
                 driver.get("https://{}".format(website))
-                har = json.loads(json.dumps(proxy.har))
+                har = json.loads(json.dumps(proxy.har, ensure_ascii=False))
                 rv = database.insert_har(experiment_uuid, website, browser, recursive, system.tostring(), dns, har,
                                          har_uuid, None, delay)
                 if not rv:
@@ -96,9 +97,8 @@ def container():
         system = Linux()
 
     resolver, recursive = system.get_dns_metadata()
-    delay = ping_resolver(resolver)
 
-    return database, websites, browsers, dns_types, resolver, recursive, system, delay
+    return database, websites, browsers, dns_types, resolver, recursive, system
 
 
 def main():
@@ -110,3 +110,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
