@@ -22,7 +22,6 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [Contributing](#contributing)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
 
@@ -65,7 +64,7 @@ build-essential
 libtool
 default-jdk
 ```
-Lastly, you will need to install the pip packages listed in dependencies/requirements.txt with the following command:
+In addition, you will need to install the pip packages listed in dependencies/requirements.txt with the following command:
 
 ```
 pip3 install -r requirements.txt
@@ -75,6 +74,11 @@ For your convenience, you can install **all** the dependencies mentioned above b
 
 ```
 bash setup.sh
+```
+
+Lastly, you will need to install the following dependency with the following command:
+```
+pip3 install --force-reinstall git+https://github.com/URenko/aioh2.git
 ```
 
 ### Installation
@@ -97,18 +101,6 @@ python3 database.py postgres.ini
 <!-- USAGE EXAMPLES -->
 ## Usage
 Usage
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch 
-3. Commit your Changes 
-4. Push to the Branch 
-5. Open a Pull Request
-
 
 <!-- CONTACT -->
 ## Contact
