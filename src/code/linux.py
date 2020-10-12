@@ -79,8 +79,11 @@ class Linux:
         return "Linux"
 
     def measure(self, dns_type, resolver, domains_filename):
-        cmd = ["dns-timing/dns-timing", dns_type, resolver, domains_filename]
+        domains = "dns-timing/" + domains_filename
+        cmd = ["dns-timing/dns-timing", dns_type, resolver, domains]
+        print(cmd)
         output = check_output(cmd, stderr=STDOUT)
+        output = output.decode('utf-8')
         return output
 
     def get_domain(self):

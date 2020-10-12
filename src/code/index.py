@@ -28,7 +28,7 @@ def ping_resolver(resolver_ip, count=5):
 
 def experiment(web_driver):
     """ Experiment """
-    database, websites, browsers, dns_types, resolver, recursive, system, delay = container()
+    database, websites, browsers, dns_types, resolver, recursive, system = container()
     proxy = web_driver.get_proxy()
     for browser in browsers:
         experiment_uuid = uuid.uuid1()
@@ -50,31 +50,35 @@ def experiment(web_driver):
                 threading.Thread(target=system.configure_doh_stub, daemon=True).start()
                 sleep(3)
             for website in websites:
-                har_uuid = uuid.uuid1()
-                print("===========================================================")
-                print("Type: ", dns, " | Resolver: ", recursive)
-                print("Creating HAR for Website: https://{}".format(website))
-                proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
-                driver.get("https://{}".format(website))
-                har = json.loads(json.dumps(proxy.har))
-                rv = database.insert_har(experiment_uuid, website, browser, recursive, system.tostring(), dns, har,
-                                         har_uuid, None, delay)
-                if not rv:
-                    print("Saved HAR for website {}".format(website))
                 try:
-                    dns_info = measure_dns(website, har, dns, resolver, system)
-                    if dns_info:
-                        rv_dns = database.insert_dns(har_uuid, experiment_uuid, browser, recursive, system.tostring(),
-                                                     dns, dns_info)
-                        if not rv_dns:
-                            print("Saved DNS for website {}".format(website))
+                    har_uuid = uuid.uuid1()
+                    delay = ping_resolver(resolver)
+                    print("===========================================================")
+                    print("Type: ", dns, " | Resolver: ", recursive)
+                    print("Creating HAR for Website: https://{}".format(website))
+                    proxy.new_har("https://{}".format(website), options={'captureHeaders': True})
+                    driver.get("https://{}".format(website))
+                    driver.set_page_load_timeout(30)
+                    har = json.loads(json.dumps(proxy.har))
+                    rv = database.insert_har(experiment_uuid, website, browser, recursive, system.tostring(), dns, har,
+                                             har_uuid, None, delay)
+                    if not rv:
+                        print("Saved HAR for website {}".format(website))
+                    try:
+                        dns_info = measure_dns(website, har, dns, resolver, system)
+                        if dns_info:
+                            rv_dns = database.insert_dns(har_uuid, experiment_uuid, browser, recursive, system.tostring(),
+                                                         dns, dns_info)
+                            if not rv_dns:
+                                print("Saved DNS for website {}".format(website))
+                                print("===========================================================\n")
+                        else:
                             print("===========================================================\n")
-                    else:
-                        print("===========================================================\n")
+                    except:
+                        print("An exception occurred! Please try again later.")
                 except:
-                    print("An exception occurred! Please try again later.")
+                    print("Failed to load page.")
 
-            sleep(10)
             if dns == "dot":
                 system.close_stubby()
             elif dns == "doh":
@@ -96,9 +100,8 @@ def container():
         system = Linux()
 
     resolver, recursive = system.get_dns_metadata()
-    delay = ping_resolver(resolver)
 
-    return database, websites, browsers, dns_types, resolver, recursive, system, delay
+    return database, websites, browsers, dns_types, resolver, recursive, system
 
 
 def main():

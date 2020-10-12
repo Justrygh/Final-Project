@@ -4,6 +4,7 @@ from selenium import webdriver
 import urllib.parse as urlparse
 
 chrome_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+firefox_binary = '/root/Desktop/other/firefox_80/firefox'
 
 class Proxy:
 
@@ -55,12 +56,13 @@ class Proxy:
         print("=====> Configuring Firefox Web Driver - Please Wait... <=====")
         path = os.path.join(os.getcwd(), "..", "..", "drivers", "geckodriver")
         profile = webdriver.FirefoxProfile()
+        profile.accept_untrusted_certs = True
         profile.set_preference("browser.privatebrowsing.autostart", True)
         selenium_proxy = self.proxy.selenium_proxy()
         profile.set_proxy(selenium_proxy)
         if system.tostring() == "Windows":
             path = path + ".exe"
-        self.driver = webdriver.Firefox(executable_path=path, firefox_profile=profile)
+        self.driver = webdriver.Firefox(executable_path=path, firefox_profile=profile, firefox_binary=firefox_binary)
 
     def get_driver(self):
         return self.driver
