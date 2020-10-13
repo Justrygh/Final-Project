@@ -5,16 +5,9 @@
   <h3 align="center">Enrichment Metadata from DNS over HTTPS Traffic</h3>
 
   <p align="center">
-    Description
-    <br />
-    <a href="https://github.com/Justrygh/Final-Project"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/Justrygh/Final-Project">View Demo</a>
-    ·
-    <a href="https://github.com/Justrygh/Final-Project/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/Justrygh/Final-Project/issues">Request Feature</a>
+    Classify encrypted traffic by separating WEB and DNS queries over the HTTPS session (port 443), moreover extract as much information as possible. E.g: GET/POST method.
+  Therefore, our research suggests improving the end-user security, by trying to filter the malicious domain that queried from the Internet Service Provider server using Machine Learning .
+
   </p>
 </p>
 
@@ -24,13 +17,11 @@
 ## Table of Contents
 
 * [About the Project](#about-the-project)
+  * [Background](#background)
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
 
@@ -39,12 +30,17 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+### Background
+
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+**This project is based on Linux.** 
+* In order to run the experiment on Windows, You will need to install WSL (Windows Subsystem Linux). 
 
-### Prerequisites
+
+### Prerequisites 
 Our code was built to run on Linux & Windows. To build the DNS response time measurement tool, You will need to install the following dependencies:
 ```
 libgetdns10
@@ -66,13 +62,23 @@ autoconf
 automake
 build-essential
 libtool
-doh-proxy
 default-jdk
 ```
-Lastly, you will need to install the pip packages listed in src/requirements.txt with the following command:
+In addition, you will need to install the pip packages listed in dependencies/requirements.txt with the following command:
 
 ```
 pip3 install -r requirements.txt
+```
+
+For your convenience, you can install **all** the dependencies mentioned above by running **setup.sh** in dependencies with the following command:
+
+```
+bash setup.sh
+```
+
+Lastly, you will need to install the following dependency with the following command:
+```
+pip3 install --force-reinstall git+https://github.com/URenko/aioh2.git
 ```
 
 ### Installation
@@ -92,38 +98,9 @@ python3 database.py postgres.ini
 * Run ```make``` in src/code/dns-timing to create the DNS response time measurement tool
 
 
-
 <!-- USAGE EXAMPLES -->
 ## Usage
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/Justrygh/Final-Project/issues) for a list of proposed features (and known issues).
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch 
-3. Commit your Changes 
-4. Push to the Branch 
-5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
+Usage
 
 <!-- CONTACT -->
 ## Contact
@@ -131,27 +108,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Project Link: [https://github.com/Justrygh/Final-Project](https://github.com/Justrygh/Final-Project)
 
 
-
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
+* [https://github.com/noise-lab/dns-measurement-suite](https://github.com/noise-lab/dns-measurement-suite)
 * []()
 * []()
-* []()
-
-
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=flat-square
-[contributors-url]: https://github.com/Justrygh/Final-Project/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Justrygh/Final-Project.svg?style=flat-square
-[forks-url]: https://github.com/Justrygh/Final-Project/network/members
-[stars-shield]: https://img.shields.io/github/stars/Justrygh/Final-Project.svg?style=flat-square
-[stars-url]: https://github.com/Justrygh/Final-Project/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Justrygh/Final-Project.svg?style=flat-square
-[issues-url]: https://github.com/Justrygh/Final-Project/issues
-[license-shield]: https://img.shields.io/github/license/Justrygh/Final-Project.svg?style=flat-square
-[license-url]: https://github.com/Justrygh/Final-Project/blob/master/LICENSE.txt
